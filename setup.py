@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="ShinjiFujita",
+    name="xmascat",
     version="0.1.0",
     install_requires=[
         "pandas",
@@ -21,7 +21,7 @@ setuptools.setup(
 #        ],
 #    },
     author="ShinjiFujita",
-    author_email="xxx@xxx",
+    author_email="fujita.shinji.0728@gmail.com",
     description="Xarray to Measurementset(v2) conversion module for ASte and other Common Astronomical Telescopes",
     long_description=long_description,
     long_description_content_type="text/markdown",
