@@ -12,6 +12,7 @@ setuptools.setup(
 	"astropy",
 	"xarray_dataclasses", 
 	"python-casacore", 
+	"netCDF4",
     ],
 #    entry_points={
 #        'console_scripts': [
