@@ -13,9 +13,9 @@ setuptools.setup(
 	"xarray_dataclasses", 
 	"python-casacore", 
     ],
-    entry_points={
-        'console_scripts': [
-            'xmascat=xmascat:main',
+#    entry_points={
+#        'console_scripts': [
+#            'xmascat=xmascat:main',
         ],
     },
     author="ShinjiFujita",
