@@ -14,13 +14,12 @@ setuptools.setup(
 	"python-casacore", 
 	"netCDF4",
 	"joblib",
-	
     ],
 #    entry_points={
 #        'console_scripts': [
 #            'xmascat=xmascat:main',
-        ],
-    },
+#        ],
+#    },
     author="ShinjiFujita",
     author_email="xxx",
     description="Xarray to Measurementset(v2) conversion module for ASte and other Common Astronomical Telescopes",
