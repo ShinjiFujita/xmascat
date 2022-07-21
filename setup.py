@@ -20,7 +20,7 @@ setuptools.setup(
     },
     author="ShinjiFujita",
     author_email="xxx",
-    description="Xarray to Mesumentset(v2) conversion module for ASte and other Common Astronomical Telescopes",
+    description="Xarray to Measurementset(v2) conversion module for ASte and other Common Astronomical Telescopes",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/ShinjiFujita/xmascat",
