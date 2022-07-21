@@ -1,0 +1,14 @@
+numpy
+pandas
+re
+dataclasses
+functools
+pathlib
+typing
+os
+datetime
+xarray
+astropy
+xarray_dataclasses
+sys
+python-casacore
