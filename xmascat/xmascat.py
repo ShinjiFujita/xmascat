@@ -380,72 +380,84 @@ def read_XFFTSdata(filename, PTN_list, nchan=32768):
 
 
 ########
-def create_XFFTSxarray(path_startfile, path_antlogtfile, path_XFFTSdata, Tamb=270.0):
-	if (os.path.exists(path_startfile)==True and os.path.exists(path_antlogtfile) and os.path.exists(path_XFFTSdata)):
-		SET_dict, PTN_list = read_startfile(filepath)
-		antlog_xr = read_antlogfile(path_antlogtfile)
-		timestamp_xffts_list, integtime_xffts_list, scantype_xffts_list, data_xffts_list = read_XFFTSdata(path_XFFTSdata, PTN_list)
+def create_XFFTSxarray(path_startfile, path_antlogfile, path_XFFTSdata, Tamb=270.0, nchan=32768):
+	if (os.path.exists(path_startfile)==True and os.path.exists(path_antlogfile) and os.path.exists(path_XFFTSdata)):
+		SET_dict, PTN_list = read_startfile(path_startfile)
+		antlog_xr = read_antlogfile(path_antlogfile)
+		timestamp_xffts_list, integtime_xffts_list, scantype_xffts_list, data_xffts_list = read_XFFTSdata(path_XFFTSdata, PTN_list, nchan=nchan)
 		
 		xr_cut = antlog_xr.sel(time=timestamp_xffts_list, method="nearest")
-		xr_test_cut["integtime"] = (("time"), integtime_xffts_list)
-		xr_test_cut["scantype"] = (("time"), scantype_xffts_list)
-		xr_test_cut["ch"] = [i for i in range(nchan)]
-		xr_test_cut["data"] = (("time", "ch"), data_xffts_list)
+		xr_cut["integtime"] = (("time"), integtime_xffts_list)
+		xr_cut["scantype"] = (("time"), scantype_xffts_list)
+		xr_cut["ch"] = [i for i in range(nchan)]
+		xr_cut["data"] = (("time", "ch"), data_xffts_list)
 		
 		A_num = int(path_XFFTSdata[-2:])
 		for k in SET_dict.keys():
-    		if k in ["REF_NUM", "RX_NAME", "REST_FREQ", "OBS_FREQ", "SIDBD_TYP", "FREQ_IF1"]:
-        		xr_test_cut.attrs[k] = SET_dict[k].split(",")[A_num-1]
-    		else:
-        		xr_test_cut.attrs[k] = SET_dict[k]
+			if k in ["REF_NUM", "RX_NAME", "REST_FREQ", "OBS_FREQ", "SIDBD_TYP", "FREQ_IF1"]:
+				xr_cut.attrs[k] = SET_dict[k].split(",")[A_num-1]
+			else:
+				xr_cut.attrs[k] = SET_dict[k]
         		
-		if xr_test_cut.SIDBD_TYP=="USB":
-    		xr_test_cut["freq"] = (("ch"), np.linspace(float(xr_test_cut.REST_FREQ) - 1.25e9, float(xr_test_cut.REST_FREQ) + 1.25e9, num=nchan))
+		if xr_cut.SIDBD_TYP=="USB":
+			xr_cut["freq"] = (("ch"), np.linspace(float(xr_cut.REST_FREQ) - 1.25e9, float(xr_cut.REST_FREQ) + 1.25e9, num=nchan))
 		elif xr_test_cut.SIDBD_TYP=="LSB":
-    		xr_test_cut["freq"] = (("ch"), np.linspace(float(xr_test_cut.REST_FREQ) + 1.25e9, float(xr_test_cut.REST_FREQ) - 1.25e9, num=nchan))
+			xr_cut["freq"] = (("ch"), np.linspace(float(xr_cut.REST_FREQ) + 1.25e9, float(xr_cut.REST_FREQ) - 1.25e9, num=nchan))
 		else:
-    		print("SIDBD_TYP is invalid. ")
+			print("SIDBD_TYP is invalid. ")
     		
-    	R_list = [_ for _ in PTN_list if _[:1]=="R"]
+		R_list = [_ for _ in PTN_list if _[:1]=="R"]
 		SKY_list = [_ for _ in PTN_list if _[:3]=="SKY"]
 		ON_list = [_ for _ in PTN_list if _[:2]=="ON"]
 		OFF_list = [_ for _ in PTN_list if _[:3]=="OFF"]
-		meantime_R_list = [np.mean((np.array(xr_test_cut["time"])[xr_test_cut.scantype==_]).astype("float64")).astype('datetime64[ns]') for _ in R_list]
-		meantime_SKY_list = [np.mean((np.array(xr_test_cut["time"])[xr_test_cut.scantype==_]).astype("float64")).astype('datetime64[ns]') for _ in SKY_list]
-		meantime_ON_list = [np.mean((np.array(xr_test_cut["time"])[xr_test_cut.scantype==_]).astype("float64")).astype('datetime64[ns]') for _ in ON_list]
-		meantime_OFF_list = [np.mean((np.array(xr_test_cut["time"])[xr_test_cut.scantype==_]).astype("float64")).astype('datetime64[ns]') for _ in OFF_list]
+		meantime_R_list = [np.mean((np.array(xr_cut["time"])[xr_cut.scantype==_]).astype("float64")).astype('datetime64[ns]') for _ in R_list]
+		meantime_SKY_list = [np.mean((np.array(xr_cut["time"])[xr_cut.scantype==_]).astype("float64")).astype('datetime64[ns]') for _ in SKY_list]
+		meantime_ON_list = [np.mean((np.array(xr_cut["time"])[xr_cut.scantype==_]).astype("float64")).astype('datetime64[ns]') for _ in ON_list]
+		meantime_OFF_list = [np.mean((np.array(xr_cut["time"])[xr_cut.scantype==_]).astype("float64")).astype('datetime64[ns]') for _ in OFF_list]
 
 		spe_array_list = []
 		Tsys_median_list = []
 		for i in range(len(ON_list)):
-    		print("A%s"%str(A_num).zfill(2), ":", i+1, "/",  len(ON_list))
-    		ON = ON_list[i]
-    		time_ON = meantime_ON_list[i]
-    		R = R_list[np.argmin(abs(meantime_R_list - meantime_ON_list[i]))]
-    		SKY = SKY_list[np.argmin(abs(meantime_SKY_list - meantime_ON_list[i]))]
-    		OFF = OFF_list[np.argmin(abs(meantime_OFF_list - meantime_ON_list[i]))]
-    		ave_R = np.mean(np.array(xr_test_cut["data"])[xr_test_cut.scantype==R], axis=0)
-    		ave_SKY = np.mean(np.array(xr_test_cut["data"])[xr_test_cut.scantype==SKY], axis=0)
-    		ave_OFF = np.mean(np.array(xr_test_cut["data"])[xr_test_cut.scantype==OFF], axis=0)
-    		Y = ave_R/ave_SKY
-    		Tsys = Tamb/(Y-1.0)    
-    		raw_ON_array = np.array(xr_test_cut["data"])[xr_test_cut.scantype==ON]
-    		spe_array = np.array([Tamb*(raw_ON - ave_OFF)/(ave_R - ave_OFF) for raw_ON in raw_ON_array])
-    		spe_array_list.append(spe_array)    
-    		Tsys_median = [np.median(Tsys)]*len(raw_ON_array)
-    		Tsys_median_list.append(Tsys_median)
-    	ON_num = len([_ for _ in PTN_list_2 if _[:2]=="ON"])
+			print("A%s"%str(A_num).zfill(2), ":", i+1, "/",  len(ON_list))
+			ON = ON_list[i]
+			time_ON = meantime_ON_list[i]
+			R = R_list[np.argmin(abs(meantime_R_list - meantime_ON_list[i]))]
+			SKY = SKY_list[np.argmin(abs(meantime_SKY_list - meantime_ON_list[i]))]
+			OFF = OFF_list[np.argmin(abs(meantime_OFF_list - meantime_ON_list[i]))]
+			ave_R = np.mean(np.array(xr_cut["data"])[xr_cut.scantype==R], axis=0)
+			ave_SKY = np.mean(np.array(xr_cut["data"])[xr_cut.scantype==SKY], axis=0)
+			ave_OFF = np.mean(np.array(xr_cut["data"])[xr_cut.scantype==OFF], axis=0)
+			Y = ave_R/ave_SKY
+			Tsys = Tamb/(Y-1.0)    
+			raw_ON_array = np.array(xr_cut["data"])[xr_cut.scantype==ON]
+			spe_array = np.array([Tamb*(raw_ON - ave_OFF)/(ave_R - ave_OFF) for raw_ON in raw_ON_array])
+			spe_array_list.append(spe_array)    
+			Tsys_median = [np.median(Tsys)]*len(raw_ON_array)
+			Tsys_median_list.append(Tsys_median)
+		ON_num = len([_ for _ in PTN_list if _[:2]=="ON"])
 		for i in range(ON_num):
-    		xr_test_cut.data[np.array(xr_test_cut_cp.scantype=="ON_%s"%str(i).zfill(4))] = spe_array_list[i]
-    	ON_mask = []
-		for _ in np.array(xr_test_cut.scantype):
-    		if "ON" in _:
-        		ON_mask.append(True)
-    		else:
-        		ON_mask.append(False)
-        xr_test_cut = xr_test_cut.isel(time=ON_mask)
-        xr_test_cut["Tsys"] = (("time"), np.array([x for xs in Tsys_median_list for x in xs]))
+			xr_cut.data[np.array(xr_cut.scantype=="ON_%s"%str(i).zfill(4))] = spe_array_list[i]
+		ON_mask = []
+		for _ in np.array(xr_cut.scantype):
+			if "ON" in _:
+				ON_mask.append(True)
+			else:
+		 		ON_mask.append(False)
+		xr_cut = xr_cut.isel(time=ON_mask)
+		xr_cut["Tsys"] = (("time"), np.array([x for xs in Tsys_median_list for x in xs]))
         
-        xr_test_cut.to_netcdf(path_XFFTSdata+".nc")
-	else:
-		print("Please check the paths. ")
+		xr_cut.to_netcdf(path_XFFTSdata+".nc")
+		print("saved: ", path_XFFTSdata+".nc")
+	if os.path.exists(path_startfile)==False:
+		print("Please check the path_startfile. ")
+	if os.path.exists(path_antlogfile)==False:
+		print("Please check the path_antlogfile. ")
+	if os.path.exists(path_XFFTSdata)==False:
+		print("Please check the path_XFFTSdata. ")
+
+
+
+def Xarray2MS2(path_xr):
+	import xmascat.make_table
+	xr_data = xr.load_dataset(path_xr)
+	print("neko")
