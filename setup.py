@@ -21,7 +21,7 @@ setuptools.setup(
 #        ],
 #    },
     author="ShinjiFujita",
-    author_email="xxx",
+    author_email="xxx@xxx",
     description="Xarray to Measurementset(v2) conversion module for ASte and other Common Astronomical Telescopes",
     long_description=long_description,
     long_description_content_type="text/markdown",
