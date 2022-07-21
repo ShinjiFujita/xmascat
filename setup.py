@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="Fujita Shinji",
+    name="ShinjiFujita",
     version="0.1.0",
     install_requires=[
         "pandas",
@@ -13,6 +13,8 @@ setuptools.setup(
 	"xarray_dataclasses", 
 	"python-casacore", 
 	"netCDF4",
+	"joblib",
+	
     ],
 #    entry_points={
 #        'console_scripts': [
