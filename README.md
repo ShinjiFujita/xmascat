@@ -1,5 +1,5 @@
 # xmascat 0.1.0 (Currently under construction)
-*Xarray to Measurementset(v2) conversion package for ASte and other Common Astronomical Telescopes*
+*Xarray to Measurementset(v2) conversion package for ASte and other Common Astronomical radio Telescopes*
 
 *xmascat refered to aste-xffts-merge (https://github.com/astropenguin/aste-xffts-merge) and b4rpipe (https://github.com/b4r-dev/b4rpipe).*
 
@@ -29,14 +29,16 @@ import xmascat
 
 # create xarray from ASTE observation logs and XFFTS data. 
 xmascat.create_XFFTSxarray("./20211205031247/OKLDr.start.20211205031247", "./20211205031247/antlog_20211205031247", "./20211205031247/XFFTS.20211205031247.A02")
+xmascat.create_XFFTSxarray("./20211205031247/OKLDr.start.20211205031247", "./20211205031247/antlog_20211205031247", "./20211205031247/XFFTS.20211205031247.A04")
 
 # Convert xarray to MS2 (MeasurementSet v2)
 xmascat.Xarray2MS2("./20211205031247/XFFTS.20211205031247.A02.nc")
+xmascat.Xarray2MS2("./20211205031247/XFFTS.20211205031247.A04.nc")
 ```
 
 ## Notes
 
-Example: Convert MS2 to FITS using CASA
+Examples: Convert MS2 to FITS using CASA
 
 ```python
 sdbaseline(infile="./20211205031247/XFFTS.20211205031247.A02.ms", outfile="./20211205031247/XFFTS.20211205031247.A02.bl.ms", datacolumn="float_data", spw="0:15000~16000;17000~18000“, blfunc="poly", order=1, overwrite=True)
