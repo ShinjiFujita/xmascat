@@ -7,6 +7,7 @@
 
 ## Requirement
 
+* Python >=3.7
 * pandas
 * xarray
 * xarray_dataclasses
