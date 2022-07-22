@@ -3,63 +3,63 @@ import pandas as pd
 import re
 
 def del_dict_key(dict_inp, keys):
-    import copy
-    d = copy.deepcopy(dict_inp)
-    for k in keys:
-        try:
-            del d[k]
-        except:
-            pass
-    return d
-    
+	import copy
+	d = copy.deepcopy(dict_inp)
+	for k in keys:
+		try:
+			del d[k]
+		except:
+			pass
+	return d
+	
 def numbering_PTN_list(PTN_list):
-    res = []
-    num_R, num_SKY, num_ON, num_OFF, num_TRANS = 0, 0, 0, 0, 0
-    for PTN in PTN_list:
-        if PTN=="R":
-            res.append("R_%s"%str(num_R).zfill(4))
-            num_R += 1
-        elif PTN=="SKY":
-            res.append("SKY_%s"%str(num_SKY).zfill(4))
-            num_SKY += 1
-        elif PTN=="ON":
-            res.append("ON_%s"%str(num_ON).zfill(4))
-            num_ON += 1
-        elif PTN=="OFF":
-            res.append("OFF_%s"%str(num_OFF).zfill(4))
-            num_OFF += 1
-        elif PTN=="TRANS":
-            res.append("TRANS_%s"%str(num_TRANS).zfill(4))
-            num_TRANS += 1
-        else:
-            print("neko")
-    return res
+	res = []
+	num_R, num_SKY, num_ON, num_OFF, num_TRANS = 0, 0, 0, 0, 0
+	for PTN in PTN_list:
+		if PTN=="R":
+			res.append("R_%s"%str(num_R).zfill(4))
+			num_R += 1
+		elif PTN=="SKY":
+			res.append("SKY_%s"%str(num_SKY).zfill(4))
+			num_SKY += 1
+		elif PTN=="ON":
+			res.append("ON_%s"%str(num_ON).zfill(4))
+			num_ON += 1
+		elif PTN=="OFF":
+			res.append("OFF_%s"%str(num_OFF).zfill(4))
+			num_OFF += 1
+		elif PTN=="TRANS":
+			res.append("TRANS_%s"%str(num_TRANS).zfill(4))
+			num_TRANS += 1
+		else:
+			print("neko")
+	return res
 
 def read_startfile(filepath):
-    list_all = []
-    with open(filepath) as f:
-        for line in f:
-            list_all.append([_ for _ in re.split("[ \n]", line) if _!=""])
-    list_XFFTS = [_[1:] for _ in list_all if "XFFTS" in _]
-    
-    SET_dict = {}
-    for line in list_XFFTS:
-        if line[0]=="OPEN":
-            continue
-        elif line[0]=="SET":
-            SET_dict[line[2]] = line[3][1:-1]
-            continue
-        else:
-            continue
-    SET_dict = del_dict_key(SET_dict, ["DUMMY_MODE", "OTF_MODE", "INTEG_TIME", "CALB_INT"])
-    
-    PTN_list = []
-    for line in list_XFFTS:
-        if line[0]=="EXECUTE":
-            if line[2]=="TYPE(ON)" or line[2]=="TYPE(OFF)" or line[2]=="TYPE(R)" or line[2]=="TYPE(SKY)":
-                PTN_list.append(line[2][5:-1])
-    PTN_list = numbering_PTN_list(PTN_list)
-    return SET_dict, PTN_list
+	list_all = []
+	with open(filepath) as f:
+		for line in f:
+			list_all.append([_ for _ in re.split("[ \n]", line) if _!=""])
+	list_XFFTS = [_[1:] for _ in list_all if "XFFTS" in _]
+	
+	SET_dict = {}
+	for line in list_XFFTS:
+		if line[0]=="OPEN":
+			continue
+		elif line[0]=="SET":
+			SET_dict[line[2]] = line[3][1:-1]
+			continue
+		else:
+			continue
+	SET_dict = del_dict_key(SET_dict, ["DUMMY_MODE", "OTF_MODE", "INTEG_TIME", "CALB_INT"])
+	
+	PTN_list = []
+	for line in list_XFFTS:
+		if line[0]=="EXECUTE":
+			if line[2]=="TYPE(ON)" or line[2]=="TYPE(OFF)" or line[2]=="TYPE(R)" or line[2]=="TYPE(SKY)":
+				PTN_list.append(line[2][5:-1])
+	PTN_list = numbering_PTN_list(PTN_list)
+	return SET_dict, PTN_list
 
 
 
@@ -109,27 +109,27 @@ chan = Literal["chan"]
 
 # dataclasses
 def const(default: T, **kwargs: Any) -> T:
-    """Create a constant field for dataclasses."""
-    return field(default=default, init=False, **kwargs)
+	"""Create a constant field for dataclasses."""
+	return field(default=default, init=False, **kwargs)
 
 
 @dataclass
 class Time:
-    """Time in UTC."""
+	"""Time in UTC."""
 
-    data: Data[time, Literal["M8[ns]"]]
-    long_name: Attr[str] = const("Time in UTC")
-    short_name: Attr[str] = const("Time")
+	data: Data[time, Literal["M8[ns]"]]
+	long_name: Attr[str] = const("Time in UTC")
+	short_name: Attr[str] = const("Time")
 
 
 @dataclass
 class Chan:
-    """Channel ID."""
+	"""Channel ID."""
 
-    data: Data[chan, int]
-    long_name: Attr[str] = const("Channel ID")
-    short_name: Attr[str] = const("Channel")
-    
+	data: Data[chan, int]
+	long_name: Attr[str] = const("Channel ID")
+	short_name: Attr[str] = const("Channel")
+	
 """Submodule of ASTE antenna logs."""
 
 
@@ -154,20 +154,20 @@ from xarray_dataclasses import AsDataset, Attr, Coordof, Data, Dataof
 
 # constants
 ASTE_SITE = EarthLocation.from_geodetic(
-    lon="-67d42m11.89525s",
-    lat="-22d58m17.69447s",
-    height="4861.9m",
+	lon="-67d42m11.89525s",
+	lat="-22d58m17.69447s",
+	height="4861.9m",
 )
 LOG_COLUMNS = (
-    "time",
-    "ra_prog",
-    "dec_prog",
-    "az_prog",
-    "el_prog",
-    "az_real",
-    "el_real",
-    "az_error",
-    "el_error",
+	"time",
+	"ra_prog",
+	"dec_prog",
+	"az_prog",
+	"el_prog",
+	"az_real",
+	"el_real",
+	"az_error",
+	"el_error",
 )
 LOG_FRAME = "RADEC"
 LOG_SEPARATOR = r"\s+"
@@ -177,142 +177,142 @@ LOG_TIMEFMT = "%y%m%d%H%M%S.%f"
 # dataclasses
 @dataclass
 class Azimuth:
-    """Antenna azimuth (degree)."""
+	"""Antenna azimuth (degree)."""
 
-    data: Data[time, float]
-    long_name: Attr[str] = const("Antenna azimuth")
-    short_name: Attr[str] = const("Azimuth")
-    units: Attr[str] = const("degree")
+	data: Data[time, float]
+	long_name: Attr[str] = const("Antenna azimuth")
+	short_name: Attr[str] = const("Azimuth")
+	units: Attr[str] = const("degree")
 
 
 @dataclass
 class Elevation:
-    """Antenna elevation (degree)."""
+	"""Antenna elevation (degree)."""
 
-    data: Data[time, float]
-    long_name: Attr[str] = const("Antenna elevation")
-    short_name: Attr[str] = const("Elevation")
-    units: Attr[str] = const("degree")
+	data: Data[time, float]
+	long_name: Attr[str] = const("Antenna elevation")
+	short_name: Attr[str] = const("Elevation")
+	units: Attr[str] = const("degree")
 
 
 @dataclass
 class Longitude:
-    """Sky longitude (degree)."""
+	"""Sky longitude (degree)."""
 
-    data: Data[time, float]
-    long_name: Attr[str] = const("Sky longitude")
-    short_name: Attr[str] = const("Longitude")
-    units: Attr[str] = const("degree")
+	data: Data[time, float]
+	long_name: Attr[str] = const("Sky longitude")
+	short_name: Attr[str] = const("Longitude")
+	units: Attr[str] = const("degree")
 
 
 @dataclass
 class Latitude:
-    """Sky latitude (degree)."""
+	"""Sky latitude (degree)."""
 
-    data: Data[time, float]
-    long_name: Attr[str] = const("Sky latitude")
-    short_name: Attr[str] = const("Latitude")
-    units: Attr[str] = const("degree")
+	data: Data[time, float]
+	long_name: Attr[str] = const("Sky latitude")
+	short_name: Attr[str] = const("Latitude")
+	units: Attr[str] = const("degree")
 
 
 @dataclass
 class Frame:
-    """Sky coordinate frame."""
+	"""Sky coordinate frame."""
 
-    data: Data[Tuple[()], str]
-    long_name: Attr[str] = const("Sky coordinate frame")
-    short_name: Attr[str] = const("Frame")
+	data: Data[Tuple[()], str]
+	long_name: Attr[str] = const("Sky coordinate frame")
+	short_name: Attr[str] = const("Frame")
 
 
 @dataclass
 class Antenna(AsDataset):
-    """ASTE antenna log."""
+	"""ASTE antenna log."""
 
-    time: Coordof[Time]
-    """Time in UTC."""
+	time: Coordof[Time]
+	"""Time in UTC."""
 
-    azimuth: Dataof[Azimuth]
-    """Antenna azimuth (degree)."""
+	azimuth: Dataof[Azimuth]
+	"""Antenna azimuth (degree)."""
 
-    elevation: Dataof[Elevation]
-    """Antenna elevation (degree)."""
+	elevation: Dataof[Elevation]
+	"""Antenna elevation (degree)."""
 
-    longitude: Dataof[Longitude]
-    """Sky longitude (degree)."""
+	longitude: Dataof[Longitude]
+	"""Sky longitude (degree)."""
 
-    latitude: Dataof[Latitude]
-    """Sky latitude (degree)."""
+	latitude: Dataof[Latitude]
+	"""Sky latitude (degree)."""
 
-    frame: Attr[str]
-    """Sky coordinate frame."""
+	frame: Attr[str]
+	"""Sky coordinate frame."""
 
 
 # runtime functions
 def read_antlogfile(path: Union[Path, str], save=False) -> xr.Dataset:
-    """Read an antenna log and create a Dataset object.
+	"""Read an antenna log and create a Dataset object.
 
-    Args:
-        path: Path of the antenna log.
+	Args:
+		path: Path of the antenna log.
 
-    Returns:
-        A Dataset object that follows ``Antenna``.
+	Returns:
+		A Dataset object that follows ``Antenna``.
 
-    """
-    # check if the sky coordinate frame is supported
-    with open(path) as f:
-        frame = f.readline().split()[0]
+	"""
+	# check if the sky coordinate frame is supported
+	with open(path) as f:
+		frame = f.readline().split()[0]
 
-    if not frame == LOG_FRAME:
-        raise ValueError(f"RADEC is only supported. Got {frame}.")
+	if not frame == LOG_FRAME:
+		raise ValueError(f"RADEC is only supported. Got {frame}.")
 
-    # read the antenna log
-    date_parser = partial(pd.to_datetime, format=LOG_TIMEFMT)
+	# read the antenna log
+	date_parser = partial(pd.to_datetime, format=LOG_TIMEFMT)
 
-    log = pd.read_csv(
-        path,
-        date_parser=date_parser,
-        index_col=0,
-        names=LOG_COLUMNS,
-        sep=LOG_SEPARATOR,
-        skiprows=1,
-    )
+	log = pd.read_csv(
+		path,
+		date_parser=date_parser,
+		index_col=0,
+		names=LOG_COLUMNS,
+		sep=LOG_SEPARATOR,
+		skiprows=1,
+	)
 
-    # calculate real-prog differences in sky
-    sky_prog = SkyCoord(
-        alt=log[LOG_COLUMNS[4]],
-        az=log[LOG_COLUMNS[3]],
-        frame=AltAz,
-        location=ASTE_SITE,
-        obstime=log.index,
-        unit=u.deg,  # type: ignore
-    ).transform_to(FK5)
+	# calculate real-prog differences in sky
+	sky_prog = SkyCoord(
+		alt=log[LOG_COLUMNS[4]],
+		az=log[LOG_COLUMNS[3]],
+		frame=AltAz,
+		location=ASTE_SITE,
+		obstime=log.index,
+		unit=u.deg,  # type: ignore
+	).transform_to(FK5)
 
-    sky_real = SkyCoord(
-        alt=log[LOG_COLUMNS[6]],
-        az=log[LOG_COLUMNS[5]],
-        frame=AltAz,
-        location=ASTE_SITE,
-        obstime=log.index,
-        unit=u.deg,  # type: ignore
-    ).transform_to(FK5)
+	sky_real = SkyCoord(
+		alt=log[LOG_COLUMNS[6]],
+		az=log[LOG_COLUMNS[5]],
+		frame=AltAz,
+		location=ASTE_SITE,
+		obstime=log.index,
+		unit=u.deg,  # type: ignore
+	).transform_to(FK5)
 
-    d_lon = (sky_real.ra - sky_prog.ra).deg  # type: ignore
-    d_lat = (sky_real.dec - sky_prog.dec).deg  # type: ignore
-    
-    res = Antenna.new(
-        time=log.index,
-        azimuth=log[LOG_COLUMNS[5]],
-        elevation=log[LOG_COLUMNS[6]],
-        longitude=log[LOG_COLUMNS[1]] + d_lon,
-        latitude=log[LOG_COLUMNS[2]] + d_lat,
-        frame=FK5.name,  # type: ignore
-    )
-    
-    if save==True:
-        res.to_netcdf(path+".nc")
-    return res
-    
-                                       #####
+	d_lon = (sky_real.ra - sky_prog.ra).deg  # type: ignore
+	d_lat = (sky_real.dec - sky_prog.dec).deg  # type: ignore
+	
+	res = Antenna.new(
+		time=log.index,
+		azimuth=log[LOG_COLUMNS[5]],
+		elevation=log[LOG_COLUMNS[6]],
+		longitude=log[LOG_COLUMNS[1]] + d_lon,
+		latitude=log[LOG_COLUMNS[2]] + d_lat,
+		frame=FK5.name,  # type: ignore
+	)
+	
+	if save==True:
+		res.to_netcdf(path+".nc")
+	return res
+	
+									   #####
 ########################
 
 
@@ -326,49 +326,49 @@ import numpy as np
 import datetime
 
 def read_XFFTSdata(filename, PTN_list, nchan=32768):
-    fp = open(filename, 'rb')
-    filesize = os.path.getsize(filename)
-    headersize = 20
-    onedatasize = nchan*4
-    num_data = filesize/(onedatasize+headersize)
-    
-    dict_list = []
-    for i in range(int(num_data)):
-        dict_tempo = {}
-        header_tempo = fp.read(headersize)
-        data_tempo = fp.read(onedatasize)
-        timestamp_tempo = np.frombuffer(header_tempo[:header_tempo.find(b"\xca=")-2], dtype="float64")[0]
-        integtime_tempo = np.frombuffer(header_tempo[header_tempo.find(b"\xca=")-2:header_tempo.find(b"\xca=")+2], dtype="float32")[0]
-        scantype_start_ind = header_tempo.find(b"\xca=")+2
-        scantype_end_ind = header_tempo.find(b"\x00\x00\x00\x00")
-        if scantype_start_ind<scantype_end_ind:
-            scantype_tempo = header_tempo[scantype_start_ind:scantype_end_ind]
-        else:
-            scantype_tempo = b"TRANS"
-        dict_tempo["timestamp"] = datetime.datetime.utcfromtimestamp(timestamp_tempo).strftime("%Y-%m-%dT%H:%M:%S.%f%Z000")
-        dict_tempo["integtime"] = integtime_tempo
-        dict_tempo["scantype"] = scantype_tempo.decode()
-        dict_tempo["data"] = np.frombuffer(data_tempo, dtype='f')
-        dict_list.append(dict_tempo)
-        
-    dict_list_cw = [d for d in dict_list if (d["scantype"]!="ZERO")]
-    
-    timestamp_xffts_list = [d["timestamp"] for d in dict_list_cw if not d["scantype"]=="TRANS"]
-    integtime_xffts_list = [d["integtime"] for d in dict_list_cw if not d["scantype"]=="TRANS"]
-    scantype_xffts_list_pre = [d["scantype"] for d in dict_list_cw]
-    data_xffts_list = [d["data"] for d in dict_list_cw if not d["scantype"]=="TRANS"]
-    
-    scantype_xffts_list = []
-    count = 0
-    for l in [(k, list(g)) for k, g in itertools.groupby(scantype_xffts_list_pre)]:
-        if l[0]=="TRANS":
-            continue
-        else:
-            for _ in range(len(l[1])):
-                scantype_xffts_list.append(PTN_list[count])
-            count += 1
-    
-    return timestamp_xffts_list, integtime_xffts_list, scantype_xffts_list, data_xffts_list
+	fp = open(filename, 'rb')
+	filesize = os.path.getsize(filename)
+	headersize = 20
+	onedatasize = nchan*4
+	num_data = filesize/(onedatasize+headersize)
+	
+	dict_list = []
+	for i in range(int(num_data)):
+		dict_tempo = {}
+		header_tempo = fp.read(headersize)
+		data_tempo = fp.read(onedatasize)
+		timestamp_tempo = np.frombuffer(header_tempo[:header_tempo.find(b"\xca=")-2], dtype="float64")[0]
+		integtime_tempo = np.frombuffer(header_tempo[header_tempo.find(b"\xca=")-2:header_tempo.find(b"\xca=")+2], dtype="float32")[0]
+		scantype_start_ind = header_tempo.find(b"\xca=")+2
+		scantype_end_ind = header_tempo.find(b"\x00\x00\x00\x00")
+		if scantype_start_ind<scantype_end_ind:
+			scantype_tempo = header_tempo[scantype_start_ind:scantype_end_ind]
+		else:
+			scantype_tempo = b"TRANS"
+		dict_tempo["timestamp"] = datetime.datetime.utcfromtimestamp(timestamp_tempo).strftime("%Y-%m-%dT%H:%M:%S.%f%Z000")
+		dict_tempo["integtime"] = integtime_tempo
+		dict_tempo["scantype"] = scantype_tempo.decode()
+		dict_tempo["data"] = np.frombuffer(data_tempo, dtype='f')
+		dict_list.append(dict_tempo)
+		
+	dict_list_cw = [d for d in dict_list if (d["scantype"]!="ZERO")]
+	
+	timestamp_xffts_list = [d["timestamp"] for d in dict_list_cw if not d["scantype"]=="TRANS"]
+	integtime_xffts_list = [d["integtime"] for d in dict_list_cw if not d["scantype"]=="TRANS"]
+	scantype_xffts_list_pre = [d["scantype"] for d in dict_list_cw]
+	data_xffts_list = [d["data"] for d in dict_list_cw if not d["scantype"]=="TRANS"]
+	
+	scantype_xffts_list = []
+	count = 0
+	for l in [(k, list(g)) for k, g in itertools.groupby(scantype_xffts_list_pre)]:
+		if l[0]=="TRANS":
+			continue
+		else:
+			for _ in range(len(l[1])):
+				scantype_xffts_list.append(PTN_list[count])
+			count += 1
+	
+	return timestamp_xffts_list, integtime_xffts_list, scantype_xffts_list, data_xffts_list
 
 
 
@@ -380,7 +380,7 @@ def read_XFFTSdata(filename, PTN_list, nchan=32768):
 
 
 ########
-def create_XFFTSxarray(path_startfile, path_antlogfile, path_XFFTSdata, Tamb=270.0, nchan=32768):
+def create_XFFTSxarray(path_startfile, path_antlogfile, path_XFFTSdata, Tamb=270.0, nchan=32768, tBW=2.5e9):
 	if (os.path.exists(path_startfile)==True and os.path.exists(path_antlogfile) and os.path.exists(path_XFFTSdata)):
 		SET_dict, PTN_list = read_startfile(path_startfile)
 		antlog_xr = read_antlogfile(path_antlogfile)
@@ -398,14 +398,16 @@ def create_XFFTSxarray(path_startfile, path_antlogfile, path_XFFTSdata, Tamb=270
 				xr_cut.attrs[k] = SET_dict[k].split(",")[A_num-1]
 			else:
 				xr_cut.attrs[k] = SET_dict[k]
-        		
+		
+		# xr_cut.VELO(m/s), xr_cut.REST_FREQ(GHz)
+		freq_offset = xr_cut.VELO/299792458.0*xr_cut.REST_FREQ
 		if xr_cut.SIDBD_TYP=="USB":
-			xr_cut["freq"] = (("ch"), np.linspace(float(xr_cut.REST_FREQ) - 1.25e9, float(xr_cut.REST_FREQ) + 1.25e9, num=nchan))
+			xr_cut["freq"] = (("ch"), np.linspace(float(xr_cut.REST_FREQ) - tBW/2.0, float(xr_cut.REST_FREQ) + tBW/2.0, num=nchan) - freq_offset)
 		elif xr_test_cut.SIDBD_TYP=="LSB":
-			xr_cut["freq"] = (("ch"), np.linspace(float(xr_cut.REST_FREQ) + 1.25e9, float(xr_cut.REST_FREQ) - 1.25e9, num=nchan))
+			xr_cut["freq"] = (("ch"), np.linspace(float(xr_cut.REST_FREQ) + tBW/2.0, float(xr_cut.REST_FREQ) - tBW/2.0, num=nchan) - freq_offset)
 		else:
 			print("SIDBD_TYP is invalid. ")
-    		
+			
 		R_list = [_ for _ in PTN_list if _[:1]=="R"]
 		SKY_list = [_ for _ in PTN_list if _[:3]=="SKY"]
 		ON_list = [_ for _ in PTN_list if _[:2]=="ON"]
@@ -428,10 +430,10 @@ def create_XFFTSxarray(path_startfile, path_antlogfile, path_XFFTSdata, Tamb=270
 			ave_SKY = np.mean(np.array(xr_cut["data"])[xr_cut.scantype==SKY], axis=0)
 			ave_OFF = np.mean(np.array(xr_cut["data"])[xr_cut.scantype==OFF], axis=0)
 			Y = ave_R/ave_SKY
-			Tsys = Tamb/(Y-1.0)    
+			Tsys = Tamb/(Y-1.0)	
 			raw_ON_array = np.array(xr_cut["data"])[xr_cut.scantype==ON]
 			spe_array = np.array([Tamb*(raw_ON - ave_OFF)/(ave_R - ave_OFF) for raw_ON in raw_ON_array])
-			spe_array_list.append(spe_array)    
+			spe_array_list.append(spe_array)	
 			Tsys_median = [np.median(Tsys)]*len(raw_ON_array)
 			Tsys_median_list.append(Tsys_median)
 		ON_num = len([_ for _ in PTN_list if _[:2]=="ON"])
@@ -445,7 +447,7 @@ def create_XFFTSxarray(path_startfile, path_antlogfile, path_XFFTSdata, Tamb=270
 		 		ON_mask.append(False)
 		xr_cut = xr_cut.isel(time=ON_mask)
 		xr_cut["Tsys"] = (("time"), np.array([x for xs in Tsys_median_list for x in xs]))
-        
+		
 		xr_cut.to_netcdf(path_XFFTSdata+".nc")
 		print("saved: ", path_XFFTSdata+".nc")
 	if os.path.exists(path_startfile)==False:
@@ -454,10 +456,127 @@ def create_XFFTSxarray(path_startfile, path_antlogfile, path_XFFTSdata, Tamb=270
 		print("Please check the path_antlogfile. ")
 	if os.path.exists(path_XFFTSdata)==False:
 		print("Please check the path_XFFTSdata. ")
+	return
 
 
-
-def Xarray2MS2(path_xr):
+def Xarray2MS2(path_xr, removetemp=True):
 	import xmascat.make_table
+	if path_xr[:-2]!="nc":
+		print("Name of input Xarray file must be 'xxxxxx.nc'. ")
+		return
 	xr_data = xr.load_dataset(path_xr)
-	print("neko")
+	
+	path_temp = os.path.dirname(path_xr)+"/temp/"
+	MS2name = path_xr[:-3]+".ms"
+	
+	os.system('rm -rf '+path_temp)
+
+	os.system('rm -rf '+MS2name)
+	os.system('mkdir -p '+path_temp)
+	
+	A_num = int(path_xr[-5:-3])
+	print()
+	print("A%s"%str(A_num).zfill(2), ":", "START: makeMAIN_ASTEXFFTS")
+	xmascat.make_table.makeMAIN_ASTEXFFTS(MS2name, xr_data, tBW=2.5e9)
+	print("A%s"%str(A_num).zfill(2), ":", "END	:makeMAIN_ASTEXFFTS ")
+	print()
+	print("START: makeANTENNA")
+	xmascat.make_table.makeANTENNA(MS2name+'/ANTENNA', path_temp+'ANTENNA')
+	print("A%s"%str(A_num).zfill(2), ":", "END	: makeANTENNA")
+	print()
+	print("A%s"%str(A_num).zfill(2), ":", "START: makeDATA_DESCRIPTION")
+	xmascat.make_table.makeDATA_DESCRIPTION(MS2name+'/DATA_DESCRIPTION', path_temp+'DATA_DESCRIPTION')
+	print("A%s"%str(A_num).zfill(2), ":", "END	: makeDATA_DESCRIPTION")
+	print()
+	print("A%s"%str(A_num).zfill(2), ":", "START: makeDOPPLER")
+	xmascat.make_table.makeDOPPLER(MS2name+'/DOPPLER', path_temp+'DOPPLER')
+	print("A%s"%str(A_num).zfill(2), ":", "END	: makeDOPPLER")
+	print()
+	print("A%s"%str(A_num).zfill(2), ":", "START: makeFEED")
+	xmascat.make_table.makeFEED(MS2name+'/FEED', path_temp+'FEED', xr_data)
+	print("A%s"%str(A_num).zfill(2), ":", "END	: makeFEED")
+	print()
+	print("A%s"%str(A_num).zfill(2), ":", "START: makeFIELD")
+	xmascat.make_table.makeFIELD(MS2name+'/FIELD', path_temp+'FIELD', xr_data)
+	print("A%s"%str(A_num).zfill(2), ":", "END	: makeFIELD")
+	print()
+	print("A%s"%str(A_num).zfill(2), ":", "START: makeFLAG_CMD")
+	xmascat.make_table.makeFLAG_CMD(MS2name+'/FLAG_CMD', path_temp+'FLAG_CMD')
+	print("A%s"%str(A_num).zfill(2), ":", "END	: makeFLAG_CMD")
+	print()
+	print("A%s"%str(A_num).zfill(2), ":", "START: makeFREQ_OFFSET")
+	xmascat.make_table.makeFREQ_OFFSET(MS2name+'/FREQ_OFFSET', path_temp+'FREQ_OFFSET', xr_data)
+	print("A%s"%str(A_num).zfill(2), ":", "END	: makeFREQ_OFFSET")
+	print()
+	print("A%s"%str(A_num).zfill(2), ":", "START: makeHISTORY")
+	xmascat.make_table.makeHISTORY(MS2name+'/HISTORY', path_temp+'HISTORY')
+	print("END	: makeHISTORY")
+	print()
+	print("A%s"%str(A_num).zfill(2), ":", "START: makeOBSERVATION")
+	xmascat.make_table.makeOBSERVATION(MS2name+'/OBSERVATION', path_temp+'OBSERVATION', xr_data)
+	print("A%s"%str(A_num).zfill(2), ":", "END	: makeOBSERVATION")
+	print()
+	print("A%s"%str(A_num).zfill(2), ":", "START: makePOINTING")
+	xmascat.make_table.makePOINTING(MS2name+'/POINTING', xr_data)
+	print("A%s"%str(A_num).zfill(2), ":", "END	: makePOINTING")
+	print()
+	print("A%s"%str(A_num).zfill(2), ":", "START: makePOLARIZAION")
+	xmascat.make_table.makePOLARIZAION(MS2name+'/POLARIZATION', path_temp+'POLARIZATION')
+	print("A%s"%str(A_num).zfill(2), ":", "END	: makePOLARIZAION")
+	print()
+	print("A%s"%str(A_num).zfill(2), ":", "START: makePROCESSOR")
+	xmascat.make_table.makePROCESSOR(MS2name+'/PROCESSOR', path_temp+'PROCESSOR')
+	print("A%s"%str(A_num).zfill(2), ":", "END	: makePROCESSOR")
+	print()
+	print("A%s"%str(A_num).zfill(2), ":", "START: makeSOURCE")
+	xmascat.make_table.makeSOURCE(MS2name+'/SOURCE', path_temp+'SOURCE', xr_data)
+	print("A%s"%str(A_num).zfill(2), ":", "END	: makeSOURCE")
+	print()
+	print("A%s"%str(A_num).zfill(2), ":", "START: makeSPECTRAL_WINDOW")
+	xmascat.make_table.makeSPECTRAL_WINDOW(MS2name+'/SPECTRAL_WINDOW',path_temp+'SPECTRAL_WINDOW', xr_data)
+	print("A%s"%str(A_num).zfill(2), ":", "END	: makeSPECTRAL_WINDOW")
+	print()
+	print("A%s"%str(A_num).zfill(2), ":", "START: makeSTATE")
+	xmascat.make_table.makeSTATE(MS2name+'/STATE', path_temp+'STATE')
+	print("A%s"%str(A_num).zfill(2), ":", "END	: makeSTATE")
+	print()
+	print("A%s"%str(A_num).zfill(2), ":", "START: makeSYSCAL")
+	xmascat.make_table.makeSYSCAL(MS2name+'/SYSCAL', path_temp+'SYSCAL', xr_data)
+	print("A%s"%str(A_num).zfill(2), ":", "END	: makeSYSCAL")
+	print()
+	print("A%s"%str(A_num).zfill(2), ":", "START: makeWEATHER")
+	xmascat.make_table.makeWEATHER(MS2name+'/WEATHER',path_temp+'WEATHER' )
+	print("A%s"%str(A_num).zfill(2), ":", "END	: makeWEATHER")
+	print()
+
+	abs_path = os.path.abspath(MS2name)
+
+	keywords = {'MS_VERSION': 2.0,
+				'ANTENNA': 'Table: '+abs_path+'/ANTENNA',
+				'DATA_DESCRIPTION': 'Table: '+abs_path+'/DATA_DESCRIPTION',
+				'DOPPLER': 'Table: '+abs_path+'/DOPPLER',
+				'FEED': 'Table: '+abs_path+'/FEED',
+				'FIELD': 'Table: '+abs_path+'/FIELD',
+				'FLAG_CMD': 'Table: '+abs_path+'/FLAG_CMD',
+				'FREQ_OFFSET': 'Table: '+abs_path+'/FREQ_OFFSET',
+				'HISTORY': 'Table: '+abs_path+'/HISTORY',
+				'OBSERVATION': 'Table: '+abs_path+'/OBSERVATION',
+				'POINTING': 'Table: '+abs_path+'/POINTING',
+				'POLARIZATION': 'Table: '+abs_path+'/POLARIZATION',
+				'PROCESSOR': 'Table: '+abs_path+'/PROCESSOR',
+				'SOURCE': 'Table: '+abs_path+'/SOURCE',
+				'SPECTRAL_WINDOW': 'Table: '+abs_path+'/SPECTRAL_WINDOW',
+				'STATE': 'Table: '+abs_path+'/STATE',
+				'SYSCAL': 'Table: '+abs_path+'/SYSCAL',
+				'WEATHER': 'Table: '+abs_path+'/WEATHER',
+				}
+	returnedTable = tb.table(MS2name, readonly=False)
+	returnedTable.putkeywords(keywords)
+
+	returnedTable.flush(recursive=True)
+	returnedTable.close()
+
+	if removetemp==True:
+		os.system('rm -rf '+path_temp)
+	print("saved: ", abs_path)
+	return
