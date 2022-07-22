@@ -399,7 +399,7 @@ def create_XFFTSxarray(path_startfile, path_antlogfile, path_XFFTSdata, Tamb=270
 			else:
 				xr_cut.attrs[k] = SET_dict[k]
 		
-		# xr_cut.VELO(m/s), xr_cut.REST_FREQ(GHz)
+		# xr_cut.VELO(m/s), xr_cut.REST_FREQ(Hz)
 		freq_offset = float(xr_cut.VELO)/299792458.0*float(xr_cut.REST_FREQ)
 		if xr_cut.SIDBD_TYP=="USB":
 			xr_cut["freq"] = (("ch"), np.linspace(float(xr_cut.REST_FREQ) - tBW/2.0, float(xr_cut.REST_FREQ) + tBW/2.0, num=nchan) - freq_offset)
@@ -461,7 +461,7 @@ def create_XFFTSxarray(path_startfile, path_antlogfile, path_XFFTSdata, Tamb=270
 
 def Xarray2MS2(path_xr, removetemp=True):
 	import xmascat.make_table
-	if path_xr[:-2]!="nc":
+	if path_xr[-2:]!="nc":
 		print("Name of input Xarray file must be 'xxxxxx.nc'. ")
 		return
 	xr_data = xr.load_dataset(path_xr)
