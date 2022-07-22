@@ -403,7 +403,7 @@ def create_XFFTSxarray(path_startfile, path_antlogfile, path_XFFTSdata, Tamb=270
 		freq_offset = float(xr_cut.VELO)/299792458.0*float(xr_cut.REST_FREQ)
 		if xr_cut.SIDBD_TYP=="USB":
 			xr_cut["freq"] = (("ch"), np.linspace(float(xr_cut.REST_FREQ) - tBW/2.0, float(xr_cut.REST_FREQ) + tBW/2.0, num=nchan) - freq_offset)
-		elif xr_test_cut.SIDBD_TYP=="LSB":
+		elif xr_cut.SIDBD_TYP=="LSB":
 			xr_cut["freq"] = (("ch"), np.linspace(float(xr_cut.REST_FREQ) + tBW/2.0, float(xr_cut.REST_FREQ) - tBW/2.0, num=nchan) - freq_offset)
 		else:
 			print("SIDBD_TYP is invalid. ")
