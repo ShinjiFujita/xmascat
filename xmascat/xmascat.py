@@ -460,6 +460,7 @@ def create_XFFTSxarray(path_startfile, path_antlogfile, path_XFFTSdata, Tamb=270
 
 
 def Xarray2MS2(path_xr, removetemp=True):
+	import casacore.tables as tb
 	import xmascat.make_table
 	if path_xr[-2:]!="nc":
 		print("Name of input Xarray file must be 'xxxxxx.nc'. ")
