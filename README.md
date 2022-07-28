@@ -41,9 +41,18 @@ xmascat.Xarray2MS2("./20211205031247/XFFTS.20211205031247.A04.nc")
 Examples: Convert MS2 to FITS using CASA
 
 ```python
+### CASA
 sdbaseline(infile="./20211205031247/XFFTS.20211205031247.A02.ms", outfile="./20211205031247/XFFTS.20211205031247.A02.bl.ms", datacolumn="float_data", spw="0:15000~16000;17000~18000“, blfunc="poly", order=1, overwrite=True)
 
 sdbaseline(infile="./20211205031247/XFFTS.20211205031247.A04.ms", outfile="./20211205031247/XFFTS.20211205031247.A04.bl.ms", datacolumn="float_data", spw="0:15000~16000;17000~18000“, blfunc="poly", order=1, overwrite=True)
+
+gencal(vis="./20211205031247/XFFTS.20211205031247.A02.bl.ms", caltable="./20211205031247/XFFTS.20211205031247.A02.bl.mb.tbl", caltype="amp", parameter=[math.sqrt(0.45)])
+
+gencal(vis="./20211205031247/XFFTS.20211205031247.A04.bl.ms", caltable="./20211205031247/XFFTS.20211205031247.A04.bl.mb.tbl", caltype="amp", parameter=[math.sqrt(0.45)])
+
+applycal(vis="./20211205031247/XFFTS.20211205031247.A02.bl.ms", gaintable=["./20211205031247/XFFTS.20211205031247.A02.bl.mb.tbl"], calwt=[False])
+
+applycal(vis="./20211205031247/XFFTS.20211205031247.A04.bl.ms", gaintable=["./20211205031247/XFFTS.20211205031247.A04.bl.mb.tbl"], calwt=[False])
 
 sdimaging(infiles=["./20211205031247/XFFTS.20211205031247.A02.bl.ms", "./20211205031247/XFFTS.20211205031247.A04.bl.ms/"], outfile="./20211205031247/XFFTS.20211205031247.A02A04.bl.int", intent="*ON_SOURCE*", gridfunction="GAUSS", cell=["10arcsec", "10arcsec"], mode="velocity", nchan=201, start="-50.0km/s", width="0.5km/s", overwrite=True, imsize=[100, 100], phasecenter="J2000 5h35m14.16 -5d22m21.5", restfreq="345.795990GHz")
 
