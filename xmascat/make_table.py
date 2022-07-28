@@ -454,7 +454,7 @@ def makeFIELD(tablename, outputfilename, xr_data):
 	ra, dec = float(str(xr_data.SRC_POS).split(",")[0]), float(str(xr_data.SRC_POS).split(",")[1])
 	ra_rad  = np.deg2rad(ra)
 	dec_rad = np.deg2rad(dec)
-	time_mean = np.mean(np.array(xr_data["time"], dtype="float64")/1e9))+3506750339.0
+	time_mean = np.mean(np.array(xr_data["time"], dtype="float64")/1e9) + 3506750339.0
 
 	# header
 	header1 = 'DELAY_DIR;PHASE_DIR;REFERENCE_DIR;CODE;FLAG_ROW;NAME;NUM_POLY;SOURCE_ID;TIME'
