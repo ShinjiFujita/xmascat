@@ -46,6 +46,8 @@ sdbaseline(infile="./20211205031247/XFFTS.20211205031247.A02.ms", outfile="./202
 
 sdbaseline(infile="./20211205031247/XFFTS.20211205031247.A04.ms", outfile="./20211205031247/XFFTS.20211205031247.A04.bl.ms", datacolumn="float_data", spw="0:15000~16000;17000~18000“, blfunc="poly", order=1, overwrite=True)
 
+import math
+
 gencal(vis="./20211205031247/XFFTS.20211205031247.A02.bl.ms", caltable="./20211205031247/XFFTS.20211205031247.A02.bl.mb.tbl", caltype="amp", parameter=[math.sqrt(0.45)])
 
 gencal(vis="./20211205031247/XFFTS.20211205031247.A04.bl.ms", caltable="./20211205031247/XFFTS.20211205031247.A04.bl.mb.tbl", caltype="amp", parameter=[math.sqrt(0.45)])
