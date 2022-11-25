@@ -28,10 +28,15 @@ pip install git+https://github.com/ShinjiFujita/xmascat.git
 import xmascat
 
 # create xarray from ASTE observation logs and XFFTS data. 
-xmascat.create_XFFTSxarray("./20211205031247/OKLDr.start.20211205031247", "./20211205031247/antlog_20211205031247", "./20211205031247/XFFTS.20211205031247.A02")
-xmascat.create_XFFTSxarray("./20211205031247/OKLDr.start.20211205031247", "./20211205031247/antlog_20211205031247", "./20211205031247/XFFTS.20211205031247.A04")
+## OTF
+xmascat.create_XFFTSxarray(path_startfile="./20211205031247/OKLDr.start.20211205031247", path_antlogfile="./20211205031247/antlog_20211205031247", path_XFFTSdata="./20211205031247/XFFTS.20211205031247.A02")
+xmascat.create_XFFTSxarray(path_startfile="./20211205031247/OKLDr.start.20211205031247", path_antlogfile="./20211205031247/antlog_20211205031247", path_XFFTSdata="./20211205031247/XFFTS.20211205031247.A04")
+## PS
+xmascat.create_XFFTSxarray(path_startfile="./20211205031247/OKLDr.start.20211205031247", path_XFFTSdata="./20211205031247/XFFTS.20211205031247.A02")
+xmascat.create_XFFTSxarray(path_startfile="./20211205031247/OKLDr.start.20211205031247", path_XFFTSdata="./20211205031247/XFFTS.20211205031247.A04")
 
 # Convert xarray to MS2 (MeasurementSet v2)
+## OTF
 xmascat.Xarray2MS2("./20211205031247/XFFTS.20211205031247.A02.nc")
 xmascat.Xarray2MS2("./20211205031247/XFFTS.20211205031247.A04.nc")
 ```
