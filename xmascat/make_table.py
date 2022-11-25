@@ -1421,4 +1421,3 @@ def makeWEATHER(tablename, outputfilename):
 
 # end makeWEATHER
 ################################################################################
-# end createMS2
