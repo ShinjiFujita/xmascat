@@ -347,8 +347,8 @@ def read_XFFTSdata(filename, PTN_list, nchan=32768, obsmode="OTF"):
 			scantype_tempo = b"TRANS"
 		if obsmode=="OTF":
 			dict_tempo["timestamp"] = datetime.datetime.utcfromtimestamp(timestamp_tempo).strftime("%Y-%m-%dT%H:%M:%S.%f%Z000")
-    	else:
-    		dict_tempo["timestamp"] = datetime.datetime.utcfromtimestamp(timestamp_tempo).strftime("%Y-%m-%dT%H:%M:%S.%f")
+		else:
+			dict_tempo["timestamp"] = datetime.datetime.utcfromtimestamp(timestamp_tempo).strftime("%Y-%m-%dT%H:%M:%S.%f")
 		dict_tempo["integtime"] = integtime_tempo
 		dict_tempo["scantype"] = scantype_tempo.decode()
 		dict_tempo["data"] = np.frombuffer(data_tempo, dtype='f')
@@ -401,7 +401,7 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 		obsmode = "OTF"
 		if path_antlogfile==None:
 			print("Please specify the path_antlogfile. ")
-		    return
+			return
 		elif os.path.exists(path_antlogfile)==False:
 		    print("Please check the path_antlogfile. ")
 		    return
@@ -410,13 +410,13 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 		xr_cut = antlog_xr.sel(time=timestamp_xffts_list, method="nearest")
 		xr_cut["ch"] = [i for i in range(nchan)]
 		xr_cut["data"] = (("time", "ch"), data_xffts_list)
-    else:
-　　obsmode = "PS"
-　　timestamp_xffts_list, integtime_xffts_list, scantype_xffts_list, data_xffts_list = read_XFFTSdata(path_XFFTSdata, PTN_list, nchan=nchan, obsmode=obsmode)
-　　xr_cut = xr.Dataset(coords={"time":[datetime.datetime.fromisoformat(_) for _ in timestamp_xffts_list], "ch":[i for i in range(nchan)]})
-　　xr_cut["data"] = (("time", "ch"), data_xffts_list)
-　xr_test_cut["integtime"] = (("time"), integtime_xffts_list)
-　xr_test_cut["scantype"] = (("time"), scantype_xffts_list)
+	else:
+		obsmode = "PS"
+		timestamp_xffts_list, integtime_xffts_list, scantype_xffts_list, data_xffts_list = read_XFFTSdata(path_XFFTSdata, PTN_list, nchan=nchan, obsmode=obsmode)
+		xr_cut = xr.Dataset(coords={"time":[datetime.datetime.fromisoformat(_) for _ in timestamp_xffts_list], "ch":[i for i in range(nchan)]})
+		xr_cut["data"] = (("time", "ch"), data_xffts_list)
+	xr_cut["integtime"] = (("time"), integtime_xffts_list)
+	xr_cut["scantype"] = (("time"), scantype_xffts_list)
 		
 	A_num = int(path_XFFTSdata[-2:])
 	for k in SET_dict.keys():
