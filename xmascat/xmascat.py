@@ -346,7 +346,7 @@ def read_XFFTSdata(filename, PTN_list, nchan=32768, obsmode="OTF"):
 		else:
 			scantype_tempo = b"TRANS"
 		if obsmode=="OTF":
-    		dict_tempo["timestamp"] = datetime.datetime.utcfromtimestamp(timestamp_tempo).strftime("%Y-%m-%dT%H:%M:%S.%f%Z000")
+			dict_tempo["timestamp"] = datetime.datetime.utcfromtimestamp(timestamp_tempo).strftime("%Y-%m-%dT%H:%M:%S.%f%Z000")
     	else:
     		dict_tempo["timestamp"] = datetime.datetime.utcfromtimestamp(timestamp_tempo).strftime("%Y-%m-%dT%H:%M:%S.%f")
 		dict_tempo["integtime"] = integtime_tempo
