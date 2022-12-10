@@ -407,11 +407,24 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 		    return
 		antlog_xr = read_antlogfile(path_antlogfile)
 		timestamp_xffts_list, integtime_xffts_list, scantype_xffts_list, data_xffts_list = read_XFFTSdata(path_XFFTSdata, PTN_list, nchan=nchan, obsmode=obsmode)
-		xr_cut = antlog_xr.sel(time=timestamp_xffts_list, method="nearest")
+		xr_cut = antlog_xr.sel(time=timestamp_xffts_list, method="nearest") #### 今後分光データに座標を紐づけるようにする。
 		xr_cut["ch"] = [i for i in range(nchan)]
 		xr_cut["data"] = (("time", "ch"), data_xffts_list)
 	else:
 		obsmode = "PS"
+		PTN_list_ = [PTN_list[0]]
+		num_dict = {}
+		num_dict["R"], num_dict["SKY"], num_dict["ON"], num_dict["OFF"] = 1, 0, 0, 0
+		for _ in PTN_list[1:]:
+			PTN_before = PTN_list_[-1].split("_")[0]
+			PTN_now = _.split("_")[0]
+			num_now = num_dict[PTN_now]
+			if PTN_before!=PTN_now:
+				PTN_list_.append(PTN_now+"_"+str(num_now).zfill(4))
+				num_dict[PTN_now] += 1
+			else:
+				pass
+		PTN_list_ = PTN_list
 		timestamp_xffts_list, integtime_xffts_list, scantype_xffts_list, data_xffts_list = read_XFFTSdata(path_XFFTSdata, PTN_list, nchan=nchan, obsmode=obsmode)
 		xr_cut = xr.Dataset(coords={"time":[datetime.datetime.fromisoformat(_) for _ in timestamp_xffts_list], "ch":[i for i in range(nchan)]})
 		xr_cut["data"] = (("time", "ch"), data_xffts_list)
