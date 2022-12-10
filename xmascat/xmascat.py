@@ -433,6 +433,8 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 		xr_cut["freq"] = (("ch"), np.linspace(float(xr_cut.REST_FREQ) + tBW/2.0, float(xr_cut.REST_FREQ) - tBW/2.0, num=nchan) - freq_offset)
 	else:
 		print("SIDBD_TYP is invalid. ")
+		
+	PTN_list = [_ for _ in PTN_list if sum(np.array(xr_cut.scantype==_))!=0]
 			
 	R_list = [_ for _ in PTN_list if _[:1]=="R"]
 	SKY_list = [_ for _ in PTN_list if _[:3]=="SKY"]
