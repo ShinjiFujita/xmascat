@@ -45,6 +45,14 @@ xmascat.Xarray2MS2("./20211205031247/XFFTS.20211205031247.A04.nc")
 
 Examples: Convert MS2 to FITS using CASA
 
+```bash
+wget https://casa.nrao.edu/download/distro/casa/release/rhel/casa-6.5.5-21-py3.8.tar.xz
+xz -dv casa-6.5.5-21-py3.8.tar.xz
+tar xfv casa-6.5.5-21-py3.8.tar
+
+./casa-6.5.5-21-py3.8/bin/casa
+```
+
 ```python
 ### CASA
 sdbaseline(infile="./20211205031247/XFFTS.20211205031247.A02.ms", outfile="./20211205031247/XFFTS.20211205031247.A02.bl.ms", datacolumn="float_data", spw="0:15000~16000;17000~18000", blfunc="poly", order=1, overwrite=True)
