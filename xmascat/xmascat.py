@@ -405,9 +405,9 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 		elif os.path.exists(path_antlogfile)==False:
 		    print("Please check the path_antlogfile. ")
 		    return
-		antlog_xr = read_antlogfile(path_antlogfile)
+		xr_antlog = read_antlogfile(path_antlogfile)
 		timestamp_xffts_list, integtime_xffts_list, scantype_xffts_list, data_xffts_list = read_XFFTSdata(path_XFFTSdata, PTN_list, nchan=nchan, obsmode=obsmode)
-		#xr_data = antlog_xr.sel(time=timestamp_xffts_list, method="nearest") #### 今後分光データに座標を紐づけるようにする。
+		#xr_data = xr_antlog.sel(time=timestamp_xffts_list, method="nearest") #### 今後分光データに座標を紐づけるようにする。
 		#xr_data["ch"] = [i for i in range(nchan)]
 		#xr_data["data"] = (("time", "ch"), data_xffts_list)
 		xr_data = xr.Dataset(coords={"time":[datetime.datetime.fromisoformat(_[:-3]) for _ in timestamp_xffts_list], "ch":[i for i in range(nchan)]})
