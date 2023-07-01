@@ -36,7 +36,7 @@ xmascat.create_XFFTSxarray(path_startfile="./20211205031247/OKLDr.start.20211205
 xmascat.create_XFFTSxarray(path_startfile="./20211205031247/OKLDr.start.20211205031247", path_XFFTSdata="./20211205031247/XFFTS.20211205031247.A04")
 
 # Plot xarray
-plotnc("./20211205031247/XFFTS.20211205031247.A02.nc", xmin=None, xmax=None, ymin=None, ymax=None)
+xmascat.plotnc("./20211205031247/XFFTS.20211205031247.A02.nc", xmin=None, xmax=None, ymin=None, ymax=None)
 
 # Convert xarray to MS2 (MeasurementSet v2)
 ## OTF
