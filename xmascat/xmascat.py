@@ -503,6 +503,34 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 	print("saved: ", path_XFFTSdata+".nc")
 	return
 
+def plotnc(path_xr, xmin=None, xmax=None, ymin=None, ymax=None):
+	import matplotlib.pyplot as plt
+	import os
+	if path_xr[-2:]!="nc":
+		print("Name of input Xarray file must be 'xxxxxx.nc'. ")
+		return
+	path_temp = path_xr[:-3]+"_plot"
+	if not os.path.exists(path_temp):
+		os.system('mkdir -p '+path_temp)
+	xr_data = xr.load_dataset(path_xr)
+	scantype_array = np.unique(np.array(xr_data.scantype).astype("str"))
+	x = np.array(xr_data.freq)
+	for scantype in scantype_array:
+		y = np.nanmean(xr_data.data[xr_data.scantype==scantype], axis=0)
+		plt.figure(figsize=(12, 6), facecolor="w")
+		plt.plot(x/1e9, y)
+		plt.xlabel("Frequency [GHz]")
+		plt.ylabel("Ta* [K]")
+		plt.xlim(xmin, xmax)
+		plt.ylim(ymin, ymax)
+		plt.title(scantype)
+		plt.rcParams['figure.facecolor'] = "w"
+		plt.rcParams['figure.edgecolor'] = "w"
+		plt.savefig(os.path.join(path_temp, scantype+".png"))
+		plt.clf()
+	
+
+
 
 def Xarray2MS2(path_xr, removetemp=True):
 	import casacore.tables as tb
