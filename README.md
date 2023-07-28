@@ -38,6 +38,9 @@ xmascat.create_XFFTSxarray(path_startfile="./20211205031247/OKLDr.start.20211205
 # Plot xarray
 xmascat.plotnc("./20211205031247/XFFTS.20211205031247.A02.nc", xmin=None, xmax=None, ymin=None, ymax=None)
 
+# Flag
+xmascat.delete_scans("./20211205031247/XFFTS.20211205031247.A02.nc", [5, 6]) # e.g., delete the scan 0005 and 0006 
+
 # Convert xarray to MS2 (MeasurementSet v2)
 ## OTF
 xmascat.Xarray2MS2("./20211205031247/XFFTS.20211205031247.A02.nc")
