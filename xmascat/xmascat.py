@@ -541,7 +541,8 @@ def delete_scans(path_xr, delete_list):
 		return
 	xr_data = xr.load_dataset(path_xr)
 	for del_scan in delete_list:
-		xr_data = xr_data.where(xr_data.scantype!="ON_%s"%str(0).zfill(4), drop=True)
+		print("ON_%s"%str(del_scan).zfill(4))
+		xr_data = xr_data.where(xr_data.scantype!="ON_%s"%str(del_scan).zfill(4), drop=True)
 	xr_data.to_netcdf(path_xr)
 	return
 
