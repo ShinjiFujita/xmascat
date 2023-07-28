@@ -543,6 +543,7 @@ def delete_scans(path_xr, delete_list):
 	for del_scan in delete_list:
 		print("ON_%s"%str(del_scan).zfill(4))
 		xr_data = xr_data.where(xr_data.scantype!="ON_%s"%str(del_scan).zfill(4), drop=True)
+	xr_data["freq"] = (("ch"), np.array(xr_data.freq[:,0]))
 	xr_data.to_netcdf(path_xr)
 	return
 
