@@ -262,6 +262,7 @@ def read_antlogfile(path: Union[Path, str], save=False) -> xr.Dataset:
 	with open(path) as f:
 		frame = f.readline().split()[0]
 
+    frame = "RADEC" #!!!!!!
 	if not frame == LOG_FRAME:
 		raise ValueError(f"RADEC is only supported. Got {frame}.")
 
