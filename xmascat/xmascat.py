@@ -533,7 +533,17 @@ def plotnc(path_xr, xmin=None, xmax=None, ymin=None, ymax=None):
 		plt.savefig(os.path.join(path_temp, scantype+".png"))
 		plt.clf()
 		np.save(os.path.join(path_temp, scantype+".npy"), y)
-	
+
+
+def delete_scans(path_xr, delete_list):
+	if path_xr[-2:]!="nc":
+		print("Name of input Xarray file must be 'xxxxxx.nc'. ")
+		return
+	xr_data = xr.load_dataset(path_xr)
+	for del_scan in delete_list:
+		xr_data = xr_data.where(xr_data.scantype!="ON_%s"%str(0).zfill(4), drop=True)
+	xr_data.to_netcdf(path_xr)
+	return
 
 
 
