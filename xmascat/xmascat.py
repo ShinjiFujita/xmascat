@@ -47,7 +47,9 @@ def read_startfile(filepath):
 		if line[0]=="OPEN":
 			continue
 		elif line[0]=="SET":
-			SET_dict[line[2]] = str(line[3]).replace("'", "").replace("(", "").replace(")", "")
+			str_tempo = str(line[3]).replace("'", "").replace("(", "").replace(")", "")
+			SET_dict[line[2]] = str_tempo
+			print(line[2], ": ", str_tempo)
 			continue
 		else:
 			continue
