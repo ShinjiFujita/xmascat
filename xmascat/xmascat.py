@@ -458,7 +458,7 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 		if A_num==1 or A_num==3:
 			xr_data["freq"] = (("ch"), np.linspace(float(xr_data.REST_FREQ) - tBW/2.0, float(xr_data.REST_FREQ) + tBW/2.0, num=nchan) - freq_offset)
 		elif A_num==2 or A_num==4:
-			xr_data["freq"] = (("ch"), np.linspace(float(xr_data.REST_FREQ) + tBW/2.0, float(xr_data.REST_FREQ) - tBW/2.0, num=nchan) - freq_offset)
+			xr_data["freq"] = (("ch"), np.linspace(float(xr_data.REST_FREQ) - tBW/2.0, float(xr_data.REST_FREQ) + tBW/2.0, num=nchan) - freq_offset)
 	else:
 		if xr_data.SIDBD_TYP=="USB":
 			xr_data["freq"] = (("ch"), np.linspace(float(xr_data.REST_FREQ) - tBW/2.0, float(xr_data.REST_FREQ) + tBW/2.0, num=nchan) - freq_offset)
