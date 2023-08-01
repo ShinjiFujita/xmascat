@@ -454,6 +454,7 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 	# xr_data.VELO(m/s), xr_data.REST_FREQ(Hz)
 	freq_offset = float(xr_data.VELO)/299792458.0*float(xr_data.REST_FREQ)
 	print("freq_offset: ", freq_offset/1e9, " GHz")
+	"""
 	if xr_data.attrs["RX_NAME"] == "CAT8W": #######   !!!!!!!!!!!!!!!!!!!!!!!!
 		if A_num==1 or A_num==3:
 			xr_data["freq"] = (("ch"), np.linspace(float(xr_data.REST_FREQ) - tBW/2.0, float(xr_data.REST_FREQ) + tBW/2.0, num=nchan) - freq_offset)
@@ -466,7 +467,13 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 			xr_data["freq"] = (("ch"), np.linspace(float(xr_data.REST_FREQ) + tBW/2.0, float(xr_data.REST_FREQ) - tBW/2.0, num=nchan) - freq_offset)
 		else:
 			print("SIDBD_TYP is invalid. ")
-		
+	"""
+	if xr_data.SIDBD_TYP=="USB":
+		xr_data["freq"] = (("ch"), np.linspace(float(xr_data.REST_FREQ) - tBW/2.0, float(xr_data.REST_FREQ) + tBW/2.0, num=nchan) - freq_offset)
+	elif xr_data.SIDBD_TYP=="LSB":
+		xr_data["freq"] = (("ch"), np.linspace(float(xr_data.REST_FREQ) + tBW/2.0, float(xr_data.REST_FREQ) - tBW/2.0, num=nchan) - freq_offset)
+	else:
+		print("SIDBD_TYP is invalid. ")
 	PTN_list = [_ for _ in PTN_list if sum(np.array(xr_data.scantype==_))!=0]
 			
 	R_list = [_ for _ in PTN_list if _[:1]=="R"]
