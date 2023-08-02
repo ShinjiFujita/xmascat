@@ -386,7 +386,7 @@ def read_XFFTSdata(filename, PTN_list, nchan=32768, obsmode="OTF"):
 
 
 ########
-def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata=None, Tamb=270.0, nchan=32768, tBW=2.5e9):
+def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata=None, Tamb=280.0, nchan=32768, tBW=2.5e9):
 	if path_startfile==None:
 		print("Please specify the path_startfile. ")
 		return
