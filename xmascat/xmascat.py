@@ -419,7 +419,7 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 		#xr_data["scantype"] = (("time"), scantype_xffts_list)
 		#xr_antlog.to_netcdf(path_antlogfile+".nc")  ### !!!!!!!
 		#xr_data.to_netcdf(path_XFFTSdata+".nc")  ### !!!!!!! 
-		xr_antlog = xr_antlog.time.drop_duplicates(dim="time")
+		xr_antlog["time"] = np.array(xr_antlog.time.drop_duplicates(dim="time"))  ### !!!!!!! 
 		xr_antlog_interp = xr_antlog.interp(time=xr_data.time)
 		xr_data["azimuth"] = (("time"), np.array(xr_antlog_interp.azimuth))
 		xr_data["elevation"] = (("time"), np.array(xr_antlog_interp.elevation))
