@@ -42,7 +42,7 @@ xmascat.plotnc("./20211205031247/XFFTS.20211205031247.A02.nc", xmin=None, xmax=N
 xmascat.delete_scans("./20211205031247/XFFTS.20211205031247.A02.nc", [5, 6]) # e.g., delete the scan 0005 and 0006 
 
 # Slice
-xmascat.slice_chs("./20211205031247/XFFTS.20211205031247.A02.nc", 345.79598990e9, 4096) # e.g., slice from 345.79598990e9 Hz - 4096ch to 345.79598990e9 Hz + 4096ch. "./20211205031247/XFFTS.20211205031247.A02.slice.nc" to be saved.
+xmascat.slice_chs("./20211205031247/XFFTS.20211205031247.A02.nc", 345.79598990e9, 4096, "12CO32") # e.g., slice from 345.79598990e9 Hz - 4096ch to 345.79598990e9 Hz + 4096ch. "./20211205031247/XFFTS.20211205031247.A02.12CO32.nc" to be saved.
 
 # Convert xarray to MS2 (MeasurementSet v2)
 ## OTF

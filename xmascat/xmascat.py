@@ -567,7 +567,7 @@ def delete_scans(path_xr, delete_list):
 	xr_data.to_netcdf(path_xr)
 	return
 	
-def slice_chs(path_xr, freq_center, ch_pm):
+def slice_chs(path_xr, freq_center, ch_pm, add_name):
 	import numpy as np
 	if path_xr[-2:]!="nc":
 		print("Name of input Xarray file must be 'xxxxxx.nc'. ")
@@ -576,7 +576,7 @@ def slice_chs(path_xr, freq_center, ch_pm):
 	ch_center = np.argmin(np.abs(np.array(xr_data.freq) - freq_center))
 	print(ch_center-ch_pm, "ch : ", ch_center+ch_pm, "ch")
 	xr_data = xr_data.sel(ch=slice(ch_center-ch_pm, ch_center+ch_pm))
-	xr_data.to_netcdf(path_xr[:-3]+".slice.nc")
+	xr_data.to_netcdf(path_xr[:-3]+".%s.nc"%add_name)
 	return
 	
 
