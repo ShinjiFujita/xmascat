@@ -556,7 +556,7 @@ def plotnc(path_xr, xmin=None, xmax=None, ymin=None, ymax=None):
 		np.save(os.path.join(path_temp, scantype+".npy"), y)
 		spe_list.append(y)
 	spe_list = np.array(spe_list)
-	np.save(os.path.join(path_temp, "spe_all_ave.npy"), np.nanmean(spe_list, axis=0))
+	np.save(os.path.join(path_temp, os.path.basename(path_xr)[:-3]+".spe_all_ave.npy"), np.nanmean(spe_list, axis=0))
 
 
 def delete_scans(path_xr, delete_list):
