@@ -538,6 +538,7 @@ def plotnc(path_xr, xmin=None, xmax=None, ymin=None, ymax=None):
 	scantype_array = np.unique(np.array(xr_data.scantype).astype("str"))
 	x = np.array(xr_data.freq)
 	np.save(os.path.join(path_temp, "freq.npy"), x)
+	spe_list = []
 	for scantype in scantype_array:
 		y = np.nanmean(xr_data.data[xr_data.scantype==scantype], axis=0)
 		plt.figure(figsize=(12, 6), facecolor="w")
@@ -553,6 +554,9 @@ def plotnc(path_xr, xmin=None, xmax=None, ymin=None, ymax=None):
 		plt.savefig(os.path.join(path_temp, scantype+".png"))
 		plt.clf()
 		np.save(os.path.join(path_temp, scantype+".npy"), y)
+		spe_list.append(y)
+	spe_list = np.array(spe_list)
+	np.save(os.path.join(path_temp, "spe_all_ave.npy"), np.nanmean(spe_list, axis=0))
 
 
 def delete_scans(path_xr, delete_list):
