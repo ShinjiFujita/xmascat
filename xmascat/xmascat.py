@@ -537,7 +537,7 @@ def plotnc(path_xr, xmin=None, xmax=None, ymin=None, ymax=None):
 	xr_data = xr.load_dataset(path_xr)
 	scantype_array = np.unique(np.array(xr_data.scantype).astype("str"))
 	x = np.array(xr_data.freq)
-	np.save(os.path.join(path_temp, "freq.npy"), x)
+	np.save(os.path.join(path_temp, os.path.basename(path_xr)[:-3]+".freq.npy"), x)
 	spe_list = []
 	for scantype in scantype_array:
 		y = np.nanmean(xr_data.data[xr_data.scantype==scantype], axis=0)
