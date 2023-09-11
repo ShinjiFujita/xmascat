@@ -340,10 +340,10 @@ def read_XFFTSdata(filename, PTN_list, nchan=32768, obsmode="OTF"):
 		dict_tempo = {}
 		header_tempo = fp.read(headersize)
 		data_tempo = fp.read(onedatasize)
-		timestamp_tempo = np.frombuffer(header_tempo[:header_tempo.find(b"\xca=")-2], dtype="float64")[0]
-		integtime_tempo = np.frombuffer(header_tempo[header_tempo.find(b"\xca=")-2:header_tempo.find(b"\xca=")+2], dtype="float32")[0]
-		scantype_start_ind = header_tempo.find(b"\xca=")+2
-		scantype_end_ind = header_tempo.find(b"\x00\x00\x00\x00")
+		timestamp_tempo = np.frombuffer(header_tempo[:header_tempo.rfind(b"\xca=")-2], dtype="float64")[0]
+		integtime_tempo = np.frombuffer(header_tempo[header_tempo.rfind(b"\xca=")-2:header_tempo.rfind(b"\xca=")+2], dtype="float32")[0]
+		scantype_start_ind = header_tempo.rfind(b"\xca=")+2
+		scantype_end_ind = header_tempo.rfind(b"\x00\x00\x00\x00")
 		if scantype_start_ind<scantype_end_ind:
 			scantype_tempo = header_tempo[scantype_start_ind:scantype_end_ind]
 		else:
