@@ -414,15 +414,11 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 			line = all_line[i]
 			if timestamp in line and "km/s" in all_line[i-1]:
 				line_split = line.split(" ")
-			try:
 				f_TOPO = float(line_split[5][2:])
-			except:
-				print("Please check the messfiles. No TOPO frequency information.")
-				return
 	try:
 		print("f_TOPO = ", f_TOPO, " Hz")
 	except:
-		print("Please check the messfiles. No TOPO frequency information!")
+		print("Please check the messfiles. No TOPO frequency information.")
 		return
 	SET_dict, PTN_list = read_startfile(path_startfile)
 	if SET_dict["OTF_MODE"] == "ON":
