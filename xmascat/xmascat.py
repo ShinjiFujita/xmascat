@@ -413,8 +413,7 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 		for i in range(len(all_line)):
 			line = all_line[i]
 			if timestamp in line and "km/s" in all_line[i-1]:
-				line_split = line.split(" ")
-				print(line_split)
+				line_split = line[i-1].split(" ")
 				try:
 					f_TOPO = float(line_split[5][2:])
 				except:
