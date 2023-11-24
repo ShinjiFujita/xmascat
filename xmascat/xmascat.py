@@ -506,8 +506,8 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 		if A_num==1 or A_num==3:
 			xr_data["freq"] = (("ch"), np.linspace(float(xr_data.REST_FREQ) - tBW/2.0, float(xr_data.REST_FREQ) + tBW/2.0, num=nchan) - freq_offset)
 		elif A_num==2 or A_num==4:
-			Band_start = float(xr_data.OBS_FREQ) - (float(xr_data.OBS_FREQ) - float(xr_data.REST_FREQ)) * (1.0 - v_TOPO/299792458.0) - tBW/2.0
-			Band_end = float(xr_data.OBS_FREQ) - (float(xr_data.OBS_FREQ) - float(xr_data.REST_FREQ)) * (1.0 - v_TOPO/299792458.0) + tBW/2.0
+			Band_start = float(xr_data.OBS_FREQ)* (1.0 - float(xr_data.VELO)/299792458.0) - (float(xr_data.OBS_FREQ) - float(xr_data.REST_FREQ)) * (1.0 - v_TOPO/299792458.0) - tBW/2.0
+			Band_end = float(xr_data.OBS_FREQ)* (1.0 - float(xr_data.VELO)/299792458.0) - (float(xr_data.OBS_FREQ) - float(xr_data.REST_FREQ)) * (1.0 - v_TOPO/299792458.0) + tBW/2.0
 			xr_data["freq"] = (("ch"), np.linspace(Band_start, Band_end, num=nchan))
 	else:
 		if xr_data.SIDBD_TYP=="USB":
