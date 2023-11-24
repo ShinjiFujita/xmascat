@@ -415,13 +415,13 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 			if timestamp in line and "km/s" in all_line[i-1]:
 				try:
 					line_split = all_line[i-1].split(" ")
-					f_TOPO = float(line_split[5][2:])
+					v_TOPO = float(line_split[3][2:]) # km/s
 				except:
 					pass
 	try:
-		print("f_TOPO = ", f_TOPO, " Hz")
+		print("v_TOPO = ", v_TOPO, " km/s")
 	except:
-		print("Please check the messfiles. No TOPO frequency information. ")
+		print("Please check the messfiles. No TOPO velocity informations. ")
 		return
 	SET_dict, PTN_list = read_startfile(path_startfile)
 	if SET_dict["OTF_MODE"] == "ON":
@@ -479,7 +479,7 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 			xr_data.attrs[k] = SET_dict[k]
 		
 	# xr_data.VELO(m/s), xr_data.REST_FREQ(Hz)
-	freq_offset = float(xr_data.VELO)/299792458.0*float(xr_data.REST_FREQ) - f_TOPO
+	freq_offset = float(xr_data.VELO + v_TOPO*1000.0)/299792458.0*float(xr_data.REST_FREQ)
 	print("freq_offset: ", freq_offset/1e9, " GHz")
 	
 	if xr_data.attrs["RX_NAME"] == "CAT8W": #######   !!!!!!!!!!!!!!!!!!!!!!!!
