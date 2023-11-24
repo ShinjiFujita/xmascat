@@ -9,6 +9,7 @@
 
 * Python >=3.7
 * pandas
+* scipy
 * xarray
 * xarray_dataclasses
 * astropy
