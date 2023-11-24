@@ -340,7 +340,7 @@ def read_XFFTSdata(filename, PTN_list, nchan=32768, obsmode="OTF"):
 		dict_tempo = {}
 		header_tempo = fp.read(headersize)
 		data_tempo = fp.read(onedatasize)
-		timestamp_tempo = np.frombuffer(header_tempo[:header_tempo.rfind(b"\xca=")-2], dtype="float64")[0]
+		timestamp_tempo = np.frombuffer(header_tempo[:header_tempo.rfind(b"\xca=")-2], dtype="float64")[0]  #### !!!!!!!
 		integtime_tempo = np.frombuffer(header_tempo[header_tempo.rfind(b"\xca=")-2:header_tempo.rfind(b"\xca=")+2], dtype="float32")[0]
 		scantype_start_ind = header_tempo.rfind(b"\xca=")+2
 		scantype_end_ind = header_tempo.rfind(b"\x00\x00\x00\x00")
@@ -386,7 +386,8 @@ def read_XFFTSdata(filename, PTN_list, nchan=32768, obsmode="OTF"):
 
 
 ########
-def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata=None, Tamb=280.0, nchan=32768, tBW=2.5e9):
+def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata=None, path_messfiles=None, Tamb=280.0, nchan=32768, tBW=2.5e9):
+	from glob import glob
 	if path_startfile==None:
 		print("Please specify the path_startfile. ")
 		return
@@ -399,6 +400,24 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 	elif os.path.exists(path_XFFTSdata)==False:
 		print("Please check the path_XFFTSdata. ")
 		return
+	mess_files = sorted(glob(path_messfiles))
+	if len(mess_files)<1:
+		print("Please check the path_messfiles. ")
+	timestamp = path_startfile.split(".")[2]
+	for mess in mess_files:
+    	all_line = []
+    	with lzma.open(mess, "r") as f:
+        	for line in f:
+            	all_line.append(line.decode())
+    	for i in range(len(all_line)):
+        	line = all_line[i]
+        	if timestamp in line and "km/s" in all_line[i-1]:
+            	line_split = line.split(" ")
+            try:
+                f_TOPO = float(line_split[5][2:])
+            except:
+            	print("Please check the messfiles. No TOPO frequency information.")
+				return
 	SET_dict, PTN_list = read_startfile(path_startfile)
 	if SET_dict["OTF_MODE"] == "ON":
 		obsmode = "OTF"
@@ -455,7 +474,7 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 			xr_data.attrs[k] = SET_dict[k]
 		
 	# xr_data.VELO(m/s), xr_data.REST_FREQ(Hz)
-	freq_offset = float(xr_data.VELO)/299792458.0*float(xr_data.REST_FREQ)
+	freq_offset = float(xr_data.VELO)/299792458.0*float(xr_data.REST_FREQ) - f_TOPO
 	print("freq_offset: ", freq_offset/1e9, " GHz")
 	
 	if xr_data.attrs["RX_NAME"] == "CAT8W": #######   !!!!!!!!!!!!!!!!!!!!!!!!
