@@ -479,7 +479,7 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 			xr_data.attrs[k] = SET_dict[k]
 		
 	# xr_data.VELO(m/s), xr_data.REST_FREQ(Hz)
-	freq_offset = float(xr_data.VELO + v_TOPO*1000.0)/299792458.0*float(xr_data.REST_FREQ)
+	freq_offset = float(xr_data.VELO + v_TOPO*1000.0)/299792458.0*float(xr_data.REST_FREQ) - (float(xr_data.VELO)/299792458.0*v_TOPO*1000.0/299792458.0)*float(xr_data.REST_FREQ)
 	print("freq_offset: ", freq_offset/1e9, " GHz")
 	
 	if xr_data.attrs["RX_NAME"] == "CAT8W": #######   !!!!!!!!!!!!!!!!!!!!!!!!
