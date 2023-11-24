@@ -481,6 +481,9 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 			xr_data.attrs[k] = SET_dict[k]
 		
 	# xr_data.VELO(m/s), xr_data.OBS_FREQ(Hz)
+	print("xr_data.VELO = ", xr_data.VELO/1e3, " km/s")
+	print("xr_data.OBS_FREQ = ", xr_data.OBS_FREQ/1e9, " GHz")
+	print("xr_data.REST_FREQ = ", xr_data.REST_FREQ/1e9, " GHz")
 	"""
 	freq_offset = (float(xr_data.VELO)-v_TOPO*1000.0)/299792458.0*float(xr_data.OBS_FREQ) - (float(xr_data.VELO)/299792458.0*v_TOPO*1000.0/299792458.0)*float(xr_data.OBS_FREQ)
 	print("freq_offset: ", freq_offset/1e9, " GHz")
