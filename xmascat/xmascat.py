@@ -512,6 +512,9 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 	Band_start = Band_center - tBW/2.0 * (-1.0)**reverse_num
 	Band_end = Band_center + tBW/2.0 * (-1.0)**reverse_num
 	xr_data["freq"] = (("ch"), np.linspace(Band_start, Band_end, num=nchan))
+	print("Band_start = ", Band_start/1e9, " GHz")
+	print("Band_center = ", Band_center/1e9, " GHz")
+	print("Band_end = ", Band_end/1e9, " GHz")
 	
 	
 	"""
