@@ -507,7 +507,12 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 		if float(xr_data.REST_FREQ)/1e9 > LO_1st_GHz-LO_2nd_GHz:
 			reverse_num += 1
 	print("reverse_num = ", reverse_num)
-	print(neko)
+
+	Band_center = float(xr_data.OBS_FREQ) * (1.0 - float(xr_data.VELO)/299792458.0) - (float(xr_data.OBS_FREQ) - float(xr_data.REST_FREQ)) * (1.0 - v_TOPO/299792458.0)
+	Band_start = Band_center - tBW/2.0 * (-1.0**reverse_num)
+	Band_end = Band_center + tBW/2.0 * (-1.0**reverse_num)
+	xr_data["freq"] = (("ch"), np.linspace(Band_start, Band_end, num=nchan))
+	
 	
 	"""
 	freq_offset = (float(xr_data.VELO)-v_TOPO*1000.0)/299792458.0*float(xr_data.OBS_FREQ) - (float(xr_data.VELO)/299792458.0*v_TOPO*1000.0/299792458.0)*float(xr_data.OBS_FREQ)
@@ -525,6 +530,8 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 			xr_data["freq"] = (("ch"), np.linspace(float(xr_data.REST_FREQ) + tBW/2.0, float(xr_data.REST_FREQ) - tBW/2.0, num=nchan) - freq_offset)
 		else:
 			print("SIDBD_TYP is invalid. ")
+	"""
+	
 	"""
 	if xr_data.attrs["RX_NAME"] == "CAT8W": #######   !!!!!!!!!!!!!!!!!!!!!!!!
 		if A_num==1 or A_num==3:
@@ -548,6 +555,8 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 			xr_data["freq"] = (("ch"), np.linspace(Band_start, Band_end, num=nchan))
 		else:
 			print("SIDBD_TYP is invalid. ")
+	"""
+			
 	"""
 	if xr_data.SIDBD_TYP=="USB":
 		xr_data["freq"] = (("ch"), np.linspace(float(xr_data.REST_FREQ) - tBW/2.0, float(xr_data.REST_FREQ) + tBW/2.0, num=nchan) - freq_offset)
