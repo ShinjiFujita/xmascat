@@ -41,10 +41,8 @@ def read_startfile(filepath):
 		for line in f:
 			list_all.append([_ for _ in re.split("[ \n]", line) if _!=""])
 	list_XFFTS = [_[1:] for _ in list_all if "XFFTS" in _]
-	line_LO1 = [_[1:] for _ in list_all if "GENARGS4" in _][0]
-	line_LO2 = [_[1:] for _ in list_all if "GENARGS3" in _]
-	print(line_LO1)
-	print(line_LO2)
+	line_LO1 = [_[1:] for _ in list_all if "GENARGS4" in _][0][3]
+	line_LO2 = [_[1:] for _ in list_all if "GENARGS3" in _][0][3]
 	LO1 = float(re.search(r"XFFLO1=(.+)'", line_LO1).group(1))
 	LO2_0 = float(re.search(r"XFFREQ0=(.+)|", line_LO2).group(1))
 	LO2_1 = float(re.search(r"XFFREQ1=(.+)|", line_LO2).group(1))
