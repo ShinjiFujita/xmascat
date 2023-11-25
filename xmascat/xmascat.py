@@ -43,9 +43,9 @@ def read_startfile(filepath):
 	list_XFFTS = [_[1:] for _ in list_all if "XFFTS" in _]
 	line_LO1 = [_[1:] for _ in list_all if "GENARGS4" in _][0][3]
 	line_LO2 = [_[1:] for _ in list_all if "GENARGS3" in _][0][3]
-	LO1 = float(line_LO1[re.search(r"XFFLO1=", str_test).end():-1])
-	LO2_0 = float(line_LO1[re.search(r"XFFREQ0=", str_test).end():re.search(r"XFFREQ1", str_test).start()-1])
-	LO2_1 = float(line_LO1[re.search(r"XFFREQ1=", str_test).end():re.search(r"XFFREQ2", str_test).start()-1])
+	LO1 = float(line_LO1[re.search(r"XFFLO1=", line_LO1).end():-1])
+	LO2_0 = float(line_LO2[re.search(r"XFFREQ0=", line_LO2).end():re.search(r"XFFREQ1", line_LO2).start()-1])
+	LO2_1 = float(line_LO2[re.search(r"XFFREQ1=", line_LO2).end():re.search(r"XFFREQ2", line_LO2).start()-1])
 	
 	SET_dict = {}
 	SET_dict["LO1"] = LO1
