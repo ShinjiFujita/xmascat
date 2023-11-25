@@ -41,8 +41,16 @@ def read_startfile(filepath):
 		for line in f:
 			list_all.append([_ for _ in re.split("[ \n]", line) if _!=""])
 	list_XFFTS = [_[1:] for _ in list_all if "XFFTS" in _]
+	line_LO1 = [_[1:] for _ in list_all if "GENARGS4" in _][0]
+	line_LO2 = [_[1:] for _ in list_all if "GENARGS3" in _][0]
+	LO1 = float(re.search(r"XFFLO1=(.+)'", line_LO1).group(1))
+	LO2_0 = float(re.search(r"XFFREQ0=(.+)|", line_LO2).group(1))
+	LO2_1 = float(re.search(r"XFFREQ1=(.+)|", line_LO2).group(1))
 	
 	SET_dict = {}
+	SET_dict["LO1"] = LO1
+	SET_dict["LO2_0"] = LO2_0
+	SET_dict["LO2_1"] = LO2_1
 	for line in list_XFFTS:
 		if line[0]=="OPEN":
 			continue
@@ -481,9 +489,25 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 			xr_data.attrs[k] = SET_dict[k]
 		
 	# xr_data.VELO(m/s), xr_data.OBS_FREQ(Hz)
+	print("LO1 = ", SET_dict["LO1"], " GHz")
+	print("LO2_0 = ", SET_dict["LO2_0"], " GHz")
+	print("LO2_1 = ", SET_dict["LO2_1"], " GHz")
 	print("xr_data.VELO = ", float(xr_data.VELO)/1e3, " km/s")
 	print("xr_data.OBS_FREQ (f_trk) = ", float(xr_data.OBS_FREQ)/1e9, " GHz")
 	print("xr_data.REST_FREQ = ", float(xr_data.REST_FREQ)/1e9, " GHz")
+	
+	LO_1st_GHz = SET_dict["LO1"]
+	if A_num==1 or A_num==3:
+		LO_2nd_GHz = SET_dict["LO2_0"]
+	elif A_num==2 or A_num==4:
+		LO_2nd_GHz = SET_dict["LO2_1"]
+	reverse_num = 0
+	if float(xr_data.REST_FREQ)/1e9 < LO_1st_GHz:
+		reverse_num += 1
+		if float(xr_data.REST_FREQ)/1e9 > LO_1st_GHz-LO_2nd_GHz:
+			reverse_num += 1
+	print("reverse_num = ", reverse_num)
+	print(neko)
 	
 	"""
 	freq_offset = (float(xr_data.VELO)-v_TOPO*1000.0)/299792458.0*float(xr_data.OBS_FREQ) - (float(xr_data.VELO)/299792458.0*v_TOPO*1000.0/299792458.0)*float(xr_data.OBS_FREQ)
@@ -504,16 +528,24 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 	"""
 	if xr_data.attrs["RX_NAME"] == "CAT8W": #######   !!!!!!!!!!!!!!!!!!!!!!!!
 		if A_num==1 or A_num==3:
-			xr_data["freq"] = (("ch"), np.linspace(float(xr_data.REST_FREQ) - tBW/2.0, float(xr_data.REST_FREQ) + tBW/2.0, num=nchan) - freq_offset)
+			Band_start = float(xr_data.OBS_FREQ)* (1.0 - float(xr_data.VELO)/299792458.0) - tBW/2.0
+			Band_end = float(xr_data.OBS_FREQ)* (1.0 - float(xr_data.VELO)/299792458.0) + tBW/2.0
+			xr_data["freq"] = (("ch"), np.linspace(Band_start, Band_end, num=nchan))
 		elif A_num==2 or A_num==4:
 			Band_start = float(xr_data.OBS_FREQ)* (1.0 - float(xr_data.VELO)/299792458.0) - (float(xr_data.OBS_FREQ) - float(xr_data.REST_FREQ)) * (1.0 - v_TOPO/299792458.0) - tBW/2.0
 			Band_end = float(xr_data.OBS_FREQ)* (1.0 - float(xr_data.VELO)/299792458.0) - (float(xr_data.OBS_FREQ) - float(xr_data.REST_FREQ)) * (1.0 - v_TOPO/299792458.0) + tBW/2.0
 			xr_data["freq"] = (("ch"), np.linspace(Band_start, Band_end, num=nchan))
 	else:
 		if xr_data.SIDBD_TYP=="USB":
-			xr_data["freq"] = (("ch"), np.linspace(float(xr_data.REST_FREQ) - tBW/2.0, float(xr_data.REST_FREQ) + tBW/2.0, num=nchan) - freq_offset)
+			#xr_data["freq"] = (("ch"), np.linspace(float(xr_data.REST_FREQ) - tBW/2.0, float(xr_data.REST_FREQ) + tBW/2.0, num=nchan) - freq_offset)
+			Band_start = float(xr_data.OBS_FREQ)* (1.0 - float(xr_data.VELO)/299792458.0) - tBW/2.0
+			Band_end = float(xr_data.OBS_FREQ)* (1.0 - float(xr_data.VELO)/299792458.0) + tBW/2.0
+			xr_data["freq"] = (("ch"), np.linspace(Band_start, Band_end, num=nchan))
 		elif xr_data.SIDBD_TYP=="LSB":
-			xr_data["freq"] = (("ch"), np.linspace(float(xr_data.REST_FREQ) + tBW/2.0, float(xr_data.REST_FREQ) - tBW/2.0, num=nchan) - freq_offset)
+			#xr_data["freq"] = (("ch"), np.linspace(float(xr_data.REST_FREQ) + tBW/2.0, float(xr_data.REST_FREQ) - tBW/2.0, num=nchan) - freq_offset)
+			Band_start = float(xr_data.OBS_FREQ)* (1.0 - float(xr_data.VELO)/299792458.0) - (float(xr_data.OBS_FREQ) - float(xr_data.REST_FREQ)) * (1.0 - v_TOPO/299792458.0) - tBW/2.0
+			Band_end = float(xr_data.OBS_FREQ)* (1.0 - float(xr_data.VELO)/299792458.0) - (float(xr_data.OBS_FREQ) - float(xr_data.REST_FREQ)) * (1.0 - v_TOPO/299792458.0) + tBW/2.0
+			xr_data["freq"] = (("ch"), np.linspace(Band_start, Band_end, num=nchan))
 		else:
 			print("SIDBD_TYP is invalid. ")
 	"""
