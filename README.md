@@ -30,11 +30,11 @@ import xmascat
 
 # create xarray from ASTE observation logs and XFFTS data. 
 ## OTF
-xmascat.create_XFFTSxarray(path_startfile="./20211205031247/OKLDr.start.20211205031247", path_antlogfile="./20211205031247/antlog_20211205031247", path_XFFTSdata="./20211205031247/XFFTS.20211205031247.A02")
-xmascat.create_XFFTSxarray(path_startfile="./20211205031247/OKLDr.start.20211205031247", path_antlogfile="./20211205031247/antlog_20211205031247", path_XFFTSdata="./20211205031247/XFFTS.20211205031247.A04")
+xmascat.create_XFFTSxarray(path_startfile="./20211205031247/OKLDr.start.20211205031247", path_antlogfile="./20211205031247/antlog_20211205031247", path_XFFTSdata="./20211205031247/XFFTS.20211205031247.A02", path_messfiles="../astref2_2023/20*/mess*.xz")
+xmascat.create_XFFTSxarray(path_startfile="./20211205031247/OKLDr.start.20211205031247", path_antlogfile="./20211205031247/antlog_20211205031247", path_XFFTSdata="./20211205031247/XFFTS.20211205031247.A04", path_messfiles="../astref2_2023/20*/mess*.xz")
 ## PS
-xmascat.create_XFFTSxarray(path_startfile="./20211205031247/OKLDr.start.20211205031247", path_XFFTSdata="./20211205031247/XFFTS.20211205031247.A02")
-xmascat.create_XFFTSxarray(path_startfile="./20211205031247/OKLDr.start.20211205031247", path_XFFTSdata="./20211205031247/XFFTS.20211205031247.A04")
+xmascat.create_XFFTSxarray(path_startfile="./20211205031247/OKLDr.start.20211205031247", path_XFFTSdata="./20211205031247/XFFTS.20211205031247.A02", path_messfiles="../astref2_2023/20*/mess*.xz")
+xmascat.create_XFFTSxarray(path_startfile="./20211205031247/OKLDr.start.20211205031247", path_XFFTSdata="./20211205031247/XFFTS.20211205031247.A04", path_messfiles="../astref2_2023/20*/mess*.xz")
 
 # Plot xarray
 xmascat.plotnc("./20211205031247/XFFTS.20211205031247.A02.nc", xmin=None, xmax=None, ymin=None, ymax=None)
