@@ -516,58 +516,6 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 	print("Band_center = ", Band_center/1e9, " GHz")
 	print("Band_end = ", Band_end/1e9, " GHz")
 	
-	
-	"""
-	freq_offset = (float(xr_data.VELO)-v_TOPO*1000.0)/299792458.0*float(xr_data.OBS_FREQ) - (float(xr_data.VELO)/299792458.0*v_TOPO*1000.0/299792458.0)*float(xr_data.OBS_FREQ)
-	print("freq_offset: ", freq_offset/1e9, " GHz")
-	
-	if xr_data.attrs["RX_NAME"] == "CAT8W": #######   !!!!!!!!!!!!!!!!!!!!!!!!
-		if A_num==1 or A_num==3:
-			xr_data["freq"] = (("ch"), np.linspace(float(xr_data.REST_FREQ) - tBW/2.0, float(xr_data.REST_FREQ) + tBW/2.0, num=nchan) - freq_offset)
-		elif A_num==2 or A_num==4:
-			xr_data["freq"] = (("ch"), np.linspace(float(xr_data.REST_FREQ) - tBW/2.0, float(xr_data.REST_FREQ) + tBW/2.0, num=nchan) - freq_offset)
-	else:
-		if xr_data.SIDBD_TYP=="USB":
-			xr_data["freq"] = (("ch"), np.linspace(float(xr_data.REST_FREQ) - tBW/2.0, float(xr_data.REST_FREQ) + tBW/2.0, num=nchan) - freq_offset)
-		elif xr_data.SIDBD_TYP=="LSB":
-			xr_data["freq"] = (("ch"), np.linspace(float(xr_data.REST_FREQ) + tBW/2.0, float(xr_data.REST_FREQ) - tBW/2.0, num=nchan) - freq_offset)
-		else:
-			print("SIDBD_TYP is invalid. ")
-	"""
-	
-	"""
-	if xr_data.attrs["RX_NAME"] == "CAT8W": #######   !!!!!!!!!!!!!!!!!!!!!!!!
-		if A_num==1 or A_num==3:
-			Band_start = float(xr_data.OBS_FREQ)* (1.0 - float(xr_data.VELO)/299792458.0) - tBW/2.0
-			Band_end = float(xr_data.OBS_FREQ)* (1.0 - float(xr_data.VELO)/299792458.0) + tBW/2.0
-			xr_data["freq"] = (("ch"), np.linspace(Band_start, Band_end, num=nchan))
-		elif A_num==2 or A_num==4:
-			Band_start = float(xr_data.OBS_FREQ)* (1.0 - float(xr_data.VELO)/299792458.0) - (float(xr_data.OBS_FREQ) - float(xr_data.REST_FREQ)) * (1.0 - v_TOPO/299792458.0) - tBW/2.0
-			Band_end = float(xr_data.OBS_FREQ)* (1.0 - float(xr_data.VELO)/299792458.0) - (float(xr_data.OBS_FREQ) - float(xr_data.REST_FREQ)) * (1.0 - v_TOPO/299792458.0) + tBW/2.0
-			xr_data["freq"] = (("ch"), np.linspace(Band_start, Band_end, num=nchan))
-	else:
-		if xr_data.SIDBD_TYP=="USB":
-			#xr_data["freq"] = (("ch"), np.linspace(float(xr_data.REST_FREQ) - tBW/2.0, float(xr_data.REST_FREQ) + tBW/2.0, num=nchan) - freq_offset)
-			Band_start = float(xr_data.OBS_FREQ)* (1.0 - float(xr_data.VELO)/299792458.0) - tBW/2.0
-			Band_end = float(xr_data.OBS_FREQ)* (1.0 - float(xr_data.VELO)/299792458.0) + tBW/2.0
-			xr_data["freq"] = (("ch"), np.linspace(Band_start, Band_end, num=nchan))
-		elif xr_data.SIDBD_TYP=="LSB":
-			#xr_data["freq"] = (("ch"), np.linspace(float(xr_data.REST_FREQ) + tBW/2.0, float(xr_data.REST_FREQ) - tBW/2.0, num=nchan) - freq_offset)
-			Band_start = float(xr_data.OBS_FREQ)* (1.0 - float(xr_data.VELO)/299792458.0) - (float(xr_data.OBS_FREQ) - float(xr_data.REST_FREQ)) * (1.0 - v_TOPO/299792458.0) - tBW/2.0
-			Band_end = float(xr_data.OBS_FREQ)* (1.0 - float(xr_data.VELO)/299792458.0) - (float(xr_data.OBS_FREQ) - float(xr_data.REST_FREQ)) * (1.0 - v_TOPO/299792458.0) + tBW/2.0
-			xr_data["freq"] = (("ch"), np.linspace(Band_start, Band_end, num=nchan))
-		else:
-			print("SIDBD_TYP is invalid. ")
-	"""
-			
-	"""
-	if xr_data.SIDBD_TYP=="USB":
-		xr_data["freq"] = (("ch"), np.linspace(float(xr_data.REST_FREQ) - tBW/2.0, float(xr_data.REST_FREQ) + tBW/2.0, num=nchan) - freq_offset)
-	elif xr_data.SIDBD_TYP=="LSB":
-		xr_data["freq"] = (("ch"), np.linspace(float(xr_data.REST_FREQ) + tBW/2.0, float(xr_data.REST_FREQ) - tBW/2.0, num=nchan) - freq_offset)
-	else:
-		print("SIDBD_TYP is invalid. ")
-	"""
 	PTN_list = [_ for _ in PTN_list if sum(np.array(xr_data.scantype==_))!=0]
 			
 	R_list = [_ for _ in PTN_list if _[:1]=="R"]
