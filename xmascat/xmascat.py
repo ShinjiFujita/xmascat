@@ -501,16 +501,18 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 		LO_2nd_GHz = SET_dict["LO2_0"]
 	elif A_num==2 or A_num==4:
 		LO_2nd_GHz = SET_dict["LO2_1"]
-	reverse_num = 0
+	num_reverse = 0
 	if float(xr_data.REST_FREQ)/1e9 < LO_1st_GHz:
-		reverse_num += 1
+		num_reverse += 1
 		if float(xr_data.REST_FREQ)/1e9 > LO_1st_GHz-LO_2nd_GHz:
-			reverse_num += 1
-	print("reverse_num = ", reverse_num)
+			num_reverse += 1
+	elif float(xr_data.REST_FREQ)/1e9 < LO_1st_GHz+LO_2nd_GHz:
+			num_reverse += 1
+	print("num_reverse = ", num_reverse)
 
 	Band_center = float(xr_data.OBS_FREQ) * (1.0 - float(xr_data.VELO)/299792458.0) - (float(xr_data.OBS_FREQ) - float(xr_data.REST_FREQ)) * (1.0 - v_TOPO*1000.0/299792458.0)
-	Band_start = Band_center - tBW/2.0 * (-1.0)**reverse_num
-	Band_end = Band_center + tBW/2.0 * (-1.0)**reverse_num
+	Band_start = Band_center - tBW/2.0 * (-1.0)**num_reverse
+	Band_end = Band_center + tBW/2.0 * (-1.0)**num_reverse
 	xr_data["freq"] = (("ch"), np.linspace(Band_start, Band_end, num=nchan))
 	print("Band_start = ", Band_start/1e9, " GHz")
 	print("Band_center = ", Band_center/1e9, " GHz")
