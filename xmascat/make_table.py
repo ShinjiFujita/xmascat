@@ -347,6 +347,7 @@ def makeDOPPLER(tablename,outputfilename,nspw=1):
 	# table
 	f = open(outputfilename+'.dat','w')
 	
+	"""
 	### !!!
 	for i in range(nspw):
 		DOPPLER_ID = '0'
@@ -358,9 +359,10 @@ def makeDOPPLER(tablename,outputfilename,nspw=1):
 		f.write(SOURCE_ID+';')
 		f.write(TRANSITION_ID+';')
 		f.write(VELDEF+'\n')
-
-	#f.write('')
 	### !!!
+	"""
+	f.write('')
+
 	
 	f.close()
 
@@ -372,13 +374,13 @@ def makeDOPPLER(tablename,outputfilename,nspw=1):
 			}
 	returned_table.putcolkeywords('VELDEF',value)
 	
-	"""
-	value = np.array([0],dtype='int32')  ###!!!!!!!!
-	returned_table.putcol('SOURCE_ID',value)  ###!!!!!!!!
 
-	value = np.array([-1],dtype='int32')  ###!!!!!!!!
-	returned_table.putcol('DOPPLER_ID',value)  ###!!!!!!!!
-	"""
+	#value = np.array([0],dtype='int32')  ###!!!!!!!!
+	#returned_table.putcol('SOURCE_ID',value)  ###!!!!!!!!
+
+	#value = np.array([-1],dtype='int32')  ###!!!!!!!!
+	#returned_table.putcol('DOPPLER_ID',value)  ###!!!!!!!!
+	
 # end makeDOPPLER
 ################################################################################
 # makeFEED
@@ -1159,11 +1161,11 @@ def makeSPECTRAL_WINDOW(tablename, outputfilename, xr_data, nspw=1, tBW=2.5e9):
 	tBW = abs(freq[0].max() - freq[0].min())
 
 	# header
-	#header1 = 'MEAS_FREQ_REF;REF_FREQUENCY;FLAG_ROW;FREQ_GROUP;FREQ_GROUP_NAME;IF_CONV_CHAIN;NAME;NET_SIDEBAND;NUM_CHAN;TOTAL_BANDWIDTH;CHAN_FREQ;CHAN_WIDTH;EFFECTIVE_BW;RESOLUTION'
-	#header2 = 'I;D;B;I;A;I;A;I;I;D;D'+str(nchan)+';D'+str(nchan)+';D'+str(nchan)+';D'+str(nchan)
+	header1 = 'MEAS_FREQ_REF;REF_FREQUENCY;FLAG_ROW;FREQ_GROUP;FREQ_GROUP_NAME;IF_CONV_CHAIN;NAME;NET_SIDEBAND;NUM_CHAN;TOTAL_BANDWIDTH;CHAN_FREQ;CHAN_WIDTH;EFFECTIVE_BW;RESOLUTION'
+	header2 = 'I;D;B;I;A;I;A;I;I;D;D'+str(nchan)+';D'+str(nchan)+';D'+str(nchan)+';D'+str(nchan)
 	
-	header1 = 'MEAS_FREQ_REF;REF_FREQUENCY;FLAG_ROW;FREQ_GROUP;FREQ_GROUP_NAME;IF_CONV_CHAIN;NAME;NET_SIDEBAND;NUM_CHAN;TOTAL_BANDWIDTH;CHAN_FREQ;CHAN_WIDTH;EFFECTIVE_BW;RESOLUTION;DOPPLER_ID'
-	header2 = 'I;D;B;I;A;I;A;I;I;D;D'+str(nchan)+';D'+str(nchan)+';D'+str(nchan)+';D'+str(nchan)+";I"
+	#header1 = 'MEAS_FREQ_REF;REF_FREQUENCY;FLAG_ROW;FREQ_GROUP;FREQ_GROUP_NAME;IF_CONV_CHAIN;NAME;NET_SIDEBAND;NUM_CHAN;TOTAL_BANDWIDTH;CHAN_FREQ;CHAN_WIDTH;EFFECTIVE_BW;RESOLUTION;DOPPLER_ID'
+	#header2 = 'I;D;B;I;A;I;A;I;I;D;D'+str(nchan)+';D'+str(nchan)+';D'+str(nchan)+';D'+str(nchan)+";I"
 
 	f = open(outputfilename+'.header','w')
 
@@ -1194,7 +1196,7 @@ def makeSPECTRAL_WINDOW(tablename, outputfilename, xr_data, nspw=1, tBW=2.5e9):
 		NET_SIDEBAND = str(i)
 		NUM_CHAN = str(nchan)
 		TOTAL_BANDWIDTH = str(tBW)
-		DOPPLER_ID = "0"  ### !!!!
+		#DOPPLER_ID = "0"  ### !!!!
 
 		f.write(MEAS_FREQ_REF+';')
 		#f.write(CHAN_FREQ+';')
@@ -1209,9 +1211,9 @@ def makeSPECTRAL_WINDOW(tablename, outputfilename, xr_data, nspw=1, tBW=2.5e9):
 		f.write(NAME+';')
 		f.write(NET_SIDEBAND+';')
 		f.write(NUM_CHAN+';')
-		#f.write(TOTAL_BANDWIDTH+';\n')
-		f.write(TOTAL_BANDWIDTH+';')  ### !!!!
-		f.write(DOPPLER_ID+';\n')  ### !!!!
+		f.write(TOTAL_BANDWIDTH+';\n')
+		#f.write(TOTAL_BANDWIDTH+';')  ### !!!!
+		#f.write(DOPPLER_ID+';\n')  ### !!!!
 
 	f.close()
 
