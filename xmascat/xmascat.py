@@ -487,6 +487,7 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 			xr_data.attrs[k] = SET_dict[k].split(",")[A_num-1]
 		else:
 			xr_data.attrs[k] = SET_dict[k]
+	xr_data.attrs["v_TOPO"] = v_TOPO*1000.0
 		
 	# xr_data.VELO(m/s), xr_data.OBS_FREQ(Hz)
 	print("LO1 = ", SET_dict["LO1"], " GHz")
@@ -510,7 +511,8 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 			num_reverse += 1
 	print("num_reverse = ", num_reverse)
 
-	Band_center = float(xr_data.OBS_FREQ) * (1.0 - float(xr_data.VELO)/299792458.0) - (float(xr_data.OBS_FREQ) - float(xr_data.REST_FREQ)) * (1.0 - v_TOPO*1000.0/299792458.0)
+	Band_center = float(xr_data.OBS_FREQ) * (1.0 - float(xr_data.VELO)/299792458.0) * (1.0 - xr_data.v_TOPO/299792458.0) - (float(xr_data.OBS_FREQ) - float(xr_data.REST_FREQ)) 
+	#Band_center = float(xr_data.OBS_FREQ) * (1.0 - float(xr_data.VELO)/299792458.0) - (float(xr_data.OBS_FREQ) - float(xr_data.REST_FREQ)) * (1.0 - xr_data.v_TOPO/299792458.0)
 	Band_start = Band_center - tBW/2.0 * (-1.0)**num_reverse
 	Band_end = Band_center + tBW/2.0 * (-1.0)**num_reverse
 	xr_data["freq"] = (("ch"), np.linspace(Band_start, Band_end, num=nchan))
