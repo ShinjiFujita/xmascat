@@ -352,7 +352,7 @@ def makeDOPPLER(tablename,outputfilename,nspw=1):
 		DOPPLER_ID = '-1'
 		SOURCE_ID = '0'
 		TRANSITION_ID = '0'
-		VELDEF = str(0.0)
+		VELDEF = str(10000.0)
 
 		f.write(DOPPLER_ID+';')
 		f.write(SOURCE_ID+';')
