@@ -349,7 +349,7 @@ def makeDOPPLER(tablename,outputfilename,nspw=1):
 	
 	### !!!
 	for i in range(nspw):
-		DOPPLER_ID = '-1'
+		DOPPLER_ID = '0'
 		SOURCE_ID = '0'
 		TRANSITION_ID = '0'
 		VELDEF = str(10000.0)
@@ -1194,7 +1194,7 @@ def makeSPECTRAL_WINDOW(tablename, outputfilename, xr_data, nspw=1, tBW=2.5e9):
 		NET_SIDEBAND = str(i)
 		NUM_CHAN = str(nchan)
 		TOTAL_BANDWIDTH = str(tBW)
-		DOPPLER_ID = "-1"  ### !!!!
+		DOPPLER_ID = "0"  ### !!!!
 
 		f.write(MEAS_FREQ_REF+';')
 		#f.write(CHAN_FREQ+';')
