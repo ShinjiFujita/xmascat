@@ -360,7 +360,7 @@ def makeDOPPLER(tablename,outputfilename):
 	returned_table.putcolkeywords('VELDEF',value)
 	
 	value = np.array([-1],dtype='int32')  ###!!!!!!!!
-	returned_table.putcolkeywords('DOPPLER_ID',value)  ###!!!!!!!!
+	returned_table.putcol('DOPPLER_ID',value)  ###!!!!!!!!
 
 # end makeDOPPLER
 ################################################################################
