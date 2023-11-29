@@ -359,6 +359,9 @@ def makeDOPPLER(tablename,outputfilename):
 			}
 	returned_table.putcolkeywords('VELDEF',value)
 	
+	value = np.array([0],dtype='int32')  ###!!!!!!!!
+	returned_table.putcol('SOURCE_ID',value)  ###!!!!!!!!
+
 	value = np.array([-1],dtype='int32')  ###!!!!!!!!
 	returned_table.putcol('DOPPLER_ID',value)  ###!!!!!!!!
 
