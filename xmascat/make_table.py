@@ -327,7 +327,7 @@ def makeDATA_DESCRIPTION(tablename,outputfilename,nspw=1):
 ################################################################################
 # makeDOPPLER
 
-def makeDOPPLER(tablename,outputfilename):
+def makeDOPPLER(tablename,outputfilename,nspw=1):
 
 	# modules
 	#import casacore.tables as tb
@@ -346,9 +346,22 @@ def makeDOPPLER(tablename,outputfilename):
 
 	# table
 	f = open(outputfilename+'.dat','w')
+	
+	### !!!
+	for i in range(nspw):
+		DOPPLER_ID = '-1'
+		SOURCE_ID = '0'
+		TRANSITION_ID = '0'
+		VELDEF = str(0.0)
 
-	f.write('')
+		f.write(DOPPLER_ID+';')
+		f.write(SOURCE_ID+';')
+		f.write(TRANSITION_ID+';')
+		f.write(VELDEF+'\n')
 
+	#f.write('')
+	### !!!
+	
 	f.close()
 
 	# make table
@@ -359,12 +372,13 @@ def makeDOPPLER(tablename,outputfilename):
 			}
 	returned_table.putcolkeywords('VELDEF',value)
 	
+	"""
 	value = np.array([0],dtype='int32')  ###!!!!!!!!
 	returned_table.putcol('SOURCE_ID',value)  ###!!!!!!!!
 
 	value = np.array([-1],dtype='int32')  ###!!!!!!!!
 	returned_table.putcol('DOPPLER_ID',value)  ###!!!!!!!!
-
+	"""
 # end makeDOPPLER
 ################################################################################
 # makeFEED
