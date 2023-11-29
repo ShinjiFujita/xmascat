@@ -358,6 +358,8 @@ def makeDOPPLER(tablename,outputfilename):
 			 'MEASINFO': {'Ref': 'RADIO', 'type': 'doppler'},
 			}
 	returned_table.putcolkeywords('VELDEF',value)
+	
+	returned_table.putcolkeywords('DOPPLER_ID',"-1")  ###!!!!!!!!
 
 # end makeDOPPLER
 ################################################################################
