@@ -79,7 +79,7 @@ applycal(vis="./20211205031247/XFFTS.20211205031247.A02.bl.ms", gaintable=["./20
 
 applycal(vis="./20211205031247/XFFTS.20211205031247.A04.bl.ms", gaintable=["./20211205031247/XFFTS.20211205031247.A04.bl.mb.tbl"], calwt=[False])
 
-sdimaging(infiles=["./20211205031247/XFFTS.20211205031247.A02.bl.ms", "./20211205031247/XFFTS.20211205031247.A04.bl.ms/"], outfile="./20211205031247/XFFTS.20211205031247.A02A04.bl.int", intent="*ON_SOURCE*", gridfunction="GAUSS", cell=["10arcsec", "10arcsec"], mode="velocity", nchan=201, start="-50.0km/s", width="0.5km/s", overwrite=True, imsize=[100, 100], phasecenter="J2000 5h35m14.16 -5d22m21.5", restfreq="345.795990GHz")
+sdimaging(infiles=["./20211205031247/XFFTS.20211205031247.A02.bl.ms", "./20211205031247/XFFTS.20211205031247.A04.bl.ms/"], outfile="./20211205031247/XFFTS.20211205031247.A02A04.bl.int", intent="*ON_SOURCE*", gridfunction="GAUSS", cell=["10arcsec", "10arcsec"], mode="velocity", nchan=201, start="-50.0km/s", width="0.5km/s", overwrite=True, imsize=[100, 100], phasecenter="J2000 5h35m14.16 -5d22m21.5", restfreq="345.795990GHz", outframe="lsrk")
 
 exportfits(imagename="./20211205031247/XFFTS.20211205031247.A02A04.bl.int", fitsimage="./20211205031247/XFFTS.20211205031247.A02A04.bl.int.fits", velocity=True, dropstokes=True, overwrite=True)
 ```
