@@ -431,6 +431,8 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 		print("v_TOPO = ", v_TOPO, " km/s")
 		print("f_trk_TOPO = ", f_trk_TOPO/1e9, " GHz")
 	except:
+		print("v_TOPO = ", v_TOPO, " km/s")
+		print("f_trk_TOPO = ", f_trk_TOPO/1e9, " GHz")
 		print("Please check the messfiles. No TOPO velocity informations. ")
 		return
 	SET_dict, PTN_list = read_startfile(path_startfile)
