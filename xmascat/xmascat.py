@@ -418,11 +418,11 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 		with lzma.open(mess, "r") as f:
 			for line in f:
 				all_line.append(line.decode())
+		print(all_line)
 		for i in range(len(all_line)):
 			line = all_line[i]
 			if timestamp in line and "km/s" in all_line[i-1]:
 				try:
-					print(line)
 					line_split = all_line[i-1].split(" ")
 					v_TOPO = float(line_split[3][2:]) # km/s
 					f_trk_TOPO = float(line_split[5][2:]) # Hz
