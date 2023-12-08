@@ -410,6 +410,7 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 		print("Please check the path_XFFTSdata. ")
 		return
 	mess_files = sorted(glob(path_messfiles))
+	print(mess_files)
 	if len(mess_files)<1:
 		print("Please check the path_messfiles. ")
 	timestamp = path_startfile.split(".")[2]
@@ -418,7 +419,6 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 		with lzma.open(mess, "r") as f:
 			for line in f:
 				all_line.append(line.decode())
-		print(all_line)
 		for i in range(len(all_line)):
 			line = all_line[i]
 			if timestamp in line and "km/s" in all_line[i-1]:
