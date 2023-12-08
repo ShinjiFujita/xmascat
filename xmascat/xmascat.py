@@ -410,10 +410,9 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 		print("Please check the path_XFFTSdata. ")
 		return
 	mess_files = sorted(glob(path_messfiles))
-	print(mess_files)
 	if len(mess_files)<1:
 		print("Please check the path_messfiles. ")
-	timestamp = path_startfile.split(".")[2]
+	timestamp = os.path.basename(path_startfile).split(".")[2]
 	for mess in mess_files:
 		all_line = []
 		with lzma.open(mess, "r") as f:
