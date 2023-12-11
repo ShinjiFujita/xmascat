@@ -257,7 +257,8 @@ def makeANTENNA(tablename,
 		FLAG_ROW = '0'
 		MOUNT = '"'+mounit+'"'
 		NAME = '"'+';'.join(beamname_list)+'"'
-		STATION = '""'
+		#STATION = '""'
+		STATION = '"ASTE"'
 
 		f.write(OFFSET+';')
 		f.write(POSITION+';')
