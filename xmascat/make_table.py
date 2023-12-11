@@ -234,7 +234,8 @@ def makeANTENNA(tablename,
 	z = c.value[2]
 	beamname_list = []
 	for i in range(nbeam):
-		beamname_list.append(beamname+str(i))
+		#beamname_list.append(beamname+str(i))
+		beamname_list.append(beamname)
 
 	# header
 	header1 = 'OFFSET;POSITION;TYPE;DISH_DIAMETER;FLAG_ROW;MOUNT;NAME;STATION'
