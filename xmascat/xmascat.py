@@ -432,7 +432,7 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 		print("f_trk_TOPO = ", f_trk_TOPO/1e9, " GHz")
 	except:
 		print("Please check the messfiles. No TOPO velocity informations. ")
-		#return
+		return
 	SET_dict, PTN_list = read_startfile(path_startfile)
 	if SET_dict["OTF_MODE"] == "ON":
 		obsmode = "OTF"
