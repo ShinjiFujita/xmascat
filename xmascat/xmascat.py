@@ -432,7 +432,7 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 		print("f_trk_TOPO = ", f_trk_TOPO/1e9, " GHz")
 	except:
 		print("Please check the messfiles. No TOPO velocity informations. ")
-		return
+		#return
 	SET_dict, PTN_list = read_startfile(path_startfile)
 	if SET_dict["OTF_MODE"] == "ON":
 		obsmode = "OTF"
@@ -479,6 +479,7 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 		xr_data = xr.Dataset(coords={"time":[datetime.datetime.fromisoformat(_) for _ in timestamp_xffts_list], "ch":[i for i in range(nchan)]})
 		xr_data["data"] = (("time", "ch"), data_xffts_list)
 		ra, dec = SET_dict["SRC_POS"][0], SET_dict["SRC_POS"][1] ### !!!!!!
+		print("ra, dec = ", ra, dec)
 		xr_data["longitude"] = (("time"), np.array([ra]*len(xr_data["time"])))
 		xr_data["latitude"] = (("time"), np.array([dec]*len(xr_data["time"])))
 	xr_data["integtime"] = (("time"), integtime_xffts_list)
