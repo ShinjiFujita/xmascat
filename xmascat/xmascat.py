@@ -358,9 +358,6 @@ def read_XFFTSdata(filename, PTN_list, nchan=32768, obsmode="OTF"):
 			scantype_tempo = b"TRANS"
 		if obsmode=="OTF":
 			dict_tempo["timestamp"] = datetime.datetime.utcfromtimestamp(timestamp_tempo).strftime("%Y-%m-%dT%H:%M:%S.%f%Z000")
-			print("timestamp_tempo = ", timestamp_tempo)
-			print("dict_tempo['timestamp'] = ", dict_tempo["timestamp"])
-			print(neko)
 		else:
 			dict_tempo["timestamp"] = datetime.datetime.utcfromtimestamp(timestamp_tempo).strftime("%Y-%m-%dT%H:%M:%S.%f")
 		dict_tempo["integtime"] = integtime_tempo
@@ -480,6 +477,8 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 		PTN_list_ = PTN_list
 		timestamp_xffts_list, integtime_xffts_list, scantype_xffts_list, data_xffts_list = read_XFFTSdata(path_XFFTSdata, PTN_list, nchan=nchan, obsmode=obsmode)
 		xr_data = xr.Dataset(coords={"time":[datetime.datetime.fromisoformat(_) for _ in timestamp_xffts_list], "ch":[i for i in range(nchan)]})
+		print('xr_data["time"][0] = ', xr_data["time"][0])
+		print(neko)
 		xr_data["data"] = (("time", "ch"), data_xffts_list)
 		radec = SET_dict["SRC_POS"].split(",")
 		ra, dec = float(radec[0]), float(radec[1]) ### !!!!!!
