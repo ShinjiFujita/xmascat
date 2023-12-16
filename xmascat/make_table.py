@@ -9,7 +9,7 @@ iers.conf.auto_max_age = None
 import xarray as xr
 import casacore.tables as tb
 from datetime import datetime
-from timezone import datetime
+from datetime import timezone
 
 ### functions ###
 
