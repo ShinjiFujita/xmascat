@@ -196,7 +196,7 @@ def makeMAIN_ASTEXFFTS(tablename, xr_data, tBW=2.5e9):
 
 #	value = np.zeros(2*nrow,dtype='float64')
 	#value = np.array(xr_data["time"], dtype="float64")/1e9 + 3506750339.0
-	value = np.array([datetime.fromtimestamp(_, timezone.utc).timestamp() for _ in np.array(xr_data["time"], dtype="float64")/1e9]).astype("float64")
+	value = np.array([datetime.fromtimestamp(_, timezone.utc).timestamp() for _ in np.array(xr_data["time"], dtype="float64")/1e9]).astype("float64") + 3506750339.0
 #	value = np.array([datetime.fromtimestamp(_).timestamp() for _ in np.array(xr_data["time"], dtype="float64")/1e9]).astype("float64")
 #	value = np.zeros_like(np.array(xr_data["time"], dtype="float64"), dtype="float64")
 #	for i in range(2):
@@ -481,7 +481,7 @@ def makeFIELD(tablename, outputfilename, xr_data):
 	ra_rad  = np.deg2rad(ra)
 	dec_rad = np.deg2rad(dec)
 	#time_mean = np.mean(np.array(xr_data["time"], dtype="float64")/1e9) + 3506750339.0
-	time = np.array([datetime.fromtimestamp(_, timezone.utc).timestamp() for _ in np.array(xr_data["time"], dtype="float64")/1e9]).astype("float64")
+	time = np.array([datetime.fromtimestamp(_, timezone.utc).timestamp() for _ in np.array(xr_data["time"], dtype="float64")/1e9]).astype("float64") + 3506750339.0
 	time_mean = np.mean(time)
 
 	# header
@@ -735,7 +735,7 @@ def makeOBSERVATION(tablename, outputfilename, xr_data, telescope_name='ASTE'):
 	# params
 	#time = np.array([datetime.fromtimestamp(_).timestamp() for _ in np.array(xr_data["time"], dtype="float64")/1e9]).astype("float64")
 	#time = np.array(xr_data["time"], dtype="float64")/1e9 + 3506750339.0
-	time = np.array([datetime.fromtimestamp(_, timezone.utc).timestamp() for _ in np.array(xr_data["time"], dtype="float64")/1e9]).astype("float64")
+	time = np.array([datetime.fromtimestamp(_, timezone.utc).timestamp() for _ in np.array(xr_data["time"], dtype="float64")/1e9]).astype("float64") + 3506750339.0
 	time_start = time.min()
 	time_end   = time.max()
 
@@ -889,7 +889,7 @@ def makePOINTING(tablename, xr_data, nbeam=1):
 
 	# params
 	#time = np.array(xr_data["time"], dtype="float64")/1e9 + 3506750339.0
-	time = np.array([datetime.fromtimestamp(_, timezone.utc).timestamp() for _ in np.array(xr_data["time"], dtype="float64")/1e9]).astype("float64")
+	time = np.array([datetime.fromtimestamp(_, timezone.utc).timestamp() for _ in np.array(xr_data["time"], dtype="float64")/1e9]).astype("float64") + 3506750339.0
 	#time = np.array([datetime.fromtimestamp(_).timestamp() for _ in np.array(xr_data["time"], dtype="float64")/1e9]).astype("float64")
 	texp = float(xr_data["integtime"][0])
 	n_direction = len(xr_data["azimuth"])
@@ -1067,7 +1067,7 @@ def makeSOURCE(tablename, outputfilename, xr_data):
 	ra_rad  = np.deg2rad(ra)
 	dec_rad = np.deg2rad(dec)
 	#time = np.array(xr_data["time"], dtype="float64")/1e9 + 3506750339.0
-	time = np.array([datetime.fromtimestamp(_, timezone.utc).timestamp() for _ in np.array(xr_data["time"], dtype="float64")/1e9]).astype("float64")
+	time = np.array([datetime.fromtimestamp(_, timezone.utc).timestamp() for _ in np.array(xr_data["time"], dtype="float64")/1e9]).astype("float64") + 3506750339.0
 	time_interval = time.max() - time.min()
 	time_interval = float(time_interval)/1e9
 	time_mean = np.mean(time)
@@ -1335,7 +1335,7 @@ def makeSYSCAL(tablename, outputfilename, xr_data, nbeam=1,npol=1,nspw=1):
 	nchan = len(xr_data["ch"])
 # 	time_interval = time.max() - Tsys_time
 	#time = np.array(xr_data["time"], dtype="float64")/1e9 + 3506750339.0
-	time = np.array([datetime.fromtimestamp(_, timezone.utc).timestamp() for _ in np.array(xr_data["time"], dtype="float64")/1e9]).astype("float64")
+	time = np.array([datetime.fromtimestamp(_, timezone.utc).timestamp() for _ in np.array(xr_data["time"], dtype="float64")/1e9]).astype("float64") + 3506750339.0
 	#time = np.array([datetime.fromtimestamp(_).timestamp() for _ in np.array(xr_data["time"], dtype="float64")/1e9]).astype("float64")
 	time_interval = time.max() - time.min()
 	Tsys = np.array(xr_data["Tsys"])
