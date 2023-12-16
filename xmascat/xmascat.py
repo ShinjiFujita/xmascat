@@ -448,8 +448,6 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 		#xr_data["ch"] = [i for i in range(nchan)]
 		#xr_data["data"] = (("time", "ch"), data_xffts_list)
 		xr_data = xr.Dataset(coords={"time":[datetime.datetime.fromisoformat(_[:-3]) for _ in timestamp_xffts_list], "ch":[i for i in range(nchan)]})
-		print('xr_data["time"][0] = ', xr_data["time"][0])
-		print(neko)
 		xr_data["data"] = (("time", "ch"), data_xffts_list)
 		#xr_data["integtime"] = (("time"), integtime_xffts_list)
 		#xr_data["scantype"] = (("time"), scantype_xffts_list)
