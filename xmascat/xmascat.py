@@ -359,7 +359,7 @@ def read_XFFTSdata(filename, PTN_list, nchan=32768, obsmode="OTF"):
 		if obsmode=="OTF":
 			dict_tempo["timestamp"] = datetime.datetime.utcfromtimestamp(timestamp_tempo).strftime("%Y-%m-%dT%H:%M:%S.%f%Z000")
 			print("timestamp_tempo = ", timestamp_tempo)
-			print("dict_tempo["timestamp"] = ", dict_tempo["timestamp"])
+			print("dict_tempo['timestamp'] = ", dict_tempo["timestamp"])
 			print(neko)
 		else:
 			dict_tempo["timestamp"] = datetime.datetime.utcfromtimestamp(timestamp_tempo).strftime("%Y-%m-%dT%H:%M:%S.%f")
