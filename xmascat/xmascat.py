@@ -448,6 +448,8 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 		#xr_data["ch"] = [i for i in range(nchan)]
 		#xr_data["data"] = (("time", "ch"), data_xffts_list)
 		xr_data = xr.Dataset(coords={"time":[datetime.datetime.fromisoformat(_[:-3]) for _ in timestamp_xffts_list], "ch":[i for i in range(nchan)]})
+		print('xr_data["time"][0] = ', xr_data["time"][0])
+		print(neko)
 		xr_data["data"] = (("time", "ch"), data_xffts_list)
 		#xr_data["integtime"] = (("time"), integtime_xffts_list)
 		#xr_data["scantype"] = (("time"), scantype_xffts_list)
@@ -477,8 +479,6 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 		PTN_list_ = PTN_list
 		timestamp_xffts_list, integtime_xffts_list, scantype_xffts_list, data_xffts_list = read_XFFTSdata(path_XFFTSdata, PTN_list, nchan=nchan, obsmode=obsmode)
 		xr_data = xr.Dataset(coords={"time":[datetime.datetime.fromisoformat(_) for _ in timestamp_xffts_list], "ch":[i for i in range(nchan)]})
-		print('xr_data["time"][0] = ', xr_data["time"][0])
-		print(neko)
 		xr_data["data"] = (("time", "ch"), data_xffts_list)
 		radec = SET_dict["SRC_POS"].split(",")
 		ra, dec = float(radec[0]), float(radec[1]) ### !!!!!!
