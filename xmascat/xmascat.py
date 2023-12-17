@@ -439,7 +439,7 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 			for i in range(len(all_line)):
 				line = all_line[i]
 				for j in range(30):
-					timestamp_p = str(int(timestamp_p) + j)
+					timestamp_p = str(int(timestamp) + j)
 				if timestamp_p in line and "km/s" in all_line[i+8]:
 					try:
 						line_split = all_line[i+8].split(" ")
