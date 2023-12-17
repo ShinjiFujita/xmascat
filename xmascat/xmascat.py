@@ -431,6 +431,7 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 						pass
 	else:
 		#obsmode = "PS"
+		dt = datetime.datetime(int(timestamp[0:4]), int(timestamp[4:6]), int(timestamp[6:8]), int(timestamp[8:10]), int(timestamp[10:12]), int(timestamp[12:14]))
 		for mess in mess_files:
 			all_line = []
 			with lzma.open(mess, "r") as f:
@@ -439,7 +440,8 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 			for i in range(len(all_line)):
 				line = all_line[i]
 				for j in range(30):
-					timestamp_p = str(int(timestamp) + j)
+					dt_p = dt + datetime.timedelta(seconds=j)
+					timestamp_p = dt_p.strftime('%Y%m%d%H%M%S')
 				if timestamp_p in line and "km/s" in all_line[i+8]:
 					try:
 						line_split = all_line[i+8].split(" ")
