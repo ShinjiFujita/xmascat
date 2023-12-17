@@ -413,20 +413,40 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 	if len(mess_files)<1:
 		print("Please check the path_messfiles. ")
 	timestamp = os.path.basename(path_startfile).split(".")[2]
-	for mess in mess_files:
-		all_line = []
-		with lzma.open(mess, "r") as f:
-			for line in f:
-				all_line.append(line.decode())
-		for i in range(len(all_line)):
-			line = all_line[i]
-			if timestamp in line and "km/s" in all_line[i-1]:
-				try:
-					line_split = all_line[i-1].split(" ")
-					v_TOPO = float(line_split[3][2:]) # km/s
-					f_trk_TOPO = float(line_split[5][2:]) # Hz
-				except:
-					pass
+	if path_antlogfile!=None:
+		#obsmode = "OTF"
+		for mess in mess_files:
+			all_line = []
+			with lzma.open(mess, "r") as f:
+				for line in f:
+					all_line.append(line.decode())
+			for i in range(len(all_line)):
+				line = all_line[i]
+				if timestamp in line and "km/s" in all_line[i-1]:
+					try:
+						line_split = all_line[i-1].split(" ")
+						v_TOPO = float(line_split[3][2:]) # km/s
+						f_trk_TOPO = float(line_split[5][2:]) # Hz
+					except:
+						pass
+	else:
+		#obsmode = "PS"
+		for mess in mess_files:
+			all_line = []
+			with lzma.open(mess, "r") as f:
+				for line in f:
+					all_line.append(line.decode())
+			for i in range(len(all_line)):
+				line = all_line[i]
+				for j in range(30):
+					timestamp_p = str(int(timestamp_p) + j)
+				if timestamp_p in line and "km/s" in all_line[i+8]:
+					try:
+						line_split = all_line[i+8].split(" ")
+						v_TOPO = float(line_split[3][2:]) # km/s
+						f_trk_TOPO = float(line_split[5][2:]) # Hz
+					except:
+						pass
 	try:
 		print("v_TOPO = ", v_TOPO, " km/s")
 		print("f_trk_TOPO = ", f_trk_TOPO/1e9, " GHz")
