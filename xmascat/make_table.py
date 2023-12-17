@@ -892,7 +892,7 @@ def makePOINTING(tablename, xr_data, nbeam=1):
 	time = np.array([datetime.fromtimestamp(_, timezone.utc).timestamp() for _ in np.array(xr_data["time"], dtype="float64")/1e9]).astype("float64") + 3506716800.0
 	#time = np.array([datetime.fromtimestamp(_).timestamp() for _ in np.array(xr_data["time"], dtype="float64")/1e9]).astype("float64")
 	texp = float(xr_data["integtime"][0])
-	n_direction = len(xr_data["azimuth"])
+	n_direction = len(xr_data["integtime"])
 	#direction = np.array([xr_data["azimuth"], xr_data["elevation"]]).T
 	#direction_rad = direction/180.*np.pi
 	time_end   = time.max()
