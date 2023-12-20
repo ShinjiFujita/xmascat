@@ -671,7 +671,9 @@ def Xarray2MS2(path_xr, removetemp=True):
 	os.system('rm -rf '+MS2name)
 	os.system('mkdir -p '+path_temp)
 	
-	A_num = int(path_xr[-5:-3])
+	#A_num = int(path_xr[-5:-3])
+	A_num = int([_ for _ in os.path.basename(path_xr).split(".") if _[0:2]=="A0"][0][1:])
+	
 	print()
 	print("A%s"%str(A_num).zfill(2), ":", "START: makeMAIN_ASTEXFFTS")
 	xmascat.make_table.makeMAIN_ASTEXFFTS(MS2name, xr_data, tBW=2.5e9)
