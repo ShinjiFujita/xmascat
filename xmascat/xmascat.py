@@ -394,7 +394,7 @@ def read_XFFTSdata(filename, PTN_list, nchan=32768, obsmode="OTF"):
 
 
 ########
-def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata=None, path_messfiles=None, Tamb=280.0, nchan=32768, tBW=2.5e9):
+def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata=None, path_messfiles=None, Tamb=280.0, nchan=32768, tBW=2.5e9, save_xr_tempo_flag=False):
 	from glob import glob
 	import lzma
 	if path_startfile==None:
@@ -546,6 +546,10 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 	print("Band_start = ", Band_start/1e9, " GHz")
 	print("Band_center = ", Band_center/1e9, " GHz")
 	print("Band_end = ", Band_end/1e9, " GHz")
+	
+	if save_xr_tempo_flag==True:
+		xr_data.to_netcdf(path_XFFTSdata+".beforeCW.nc")
+		return
 	
 	PTN_list = [_ for _ in PTN_list if sum(np.array(xr_data.scantype==_))!=0]
 			
