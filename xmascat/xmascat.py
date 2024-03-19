@@ -550,9 +550,8 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 	
 	if save_xr_tempo_flag==True:
 		xr_data.to_netcdf(path_XFFTSdata+".beforeCW.nc")
-		f = open("PTN_list.pickle","wb")
-		pickle.dump(PTN_list,f)
-		f.close()
+		with open("PTN_list.pkl", 'wb') as f:
+			pickle.dump(PTN_list, f)
 		return
 	
 	PTN_list = [_ for _ in PTN_list if sum(np.array(xr_data.scantype==_))!=0]
