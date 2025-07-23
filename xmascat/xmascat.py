@@ -580,7 +580,7 @@ def create_XFFTSxarray(path_startfile=None, path_antlogfile=None, path_XFFTSdata
 		Y = ave_R/ave_SKY
 		Tsys = Tamb/(Y-1.0)	
 		raw_ON_array = np.array(xr_data["data"])[xr_data.scantype==ON]
-		spe_array = np.array([Tamb*(raw_ON - ave_OFF)/(ave_R - ave_OFF) for raw_ON in raw_ON_array])
+		spe_array = np.array([Tamb*(raw_ON - ave_OFF)/(ave_R - ave_SKY) for raw_ON in raw_ON_array])
 		spe_array_list.append(spe_array)	
 		Tsys_median = [np.median(Tsys)]*len(raw_ON_array)
 		Tsys_median_list.append(Tsys_median)
